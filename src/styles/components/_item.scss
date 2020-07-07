@@ -1,0 +1,15 @@
+.item {
+  background: #4885ed;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 10px;
+}
+
+.item-name {
+  border: none;
+  background: none;
+}

@@ -1,0 +1,19 @@
+.button {
+  background: #4885ed;
+  border: none;
+  border-radius: 5px;
+  color: black;
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1;
+  padding: 1.2rem;
+  width: 7rem;
+  text-decoration: none;
+  &:hover {
+    background: lighten($color: #4885ed, $amount: 6%);
+  }
+}
+
+.button--remove {
+}
