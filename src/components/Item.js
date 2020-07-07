@@ -8,6 +8,7 @@ export default (props) => {
     startEditTask,
     startCompleteHabit,
     startUndoCompleteHabit,
+    calculateStreak,
     dateRef,
     date,
   } = useContext(GlobalContext);

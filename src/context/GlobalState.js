@@ -81,7 +81,7 @@ export const GlobalProvider = ({ children }) => {
     database
       .ref(`/habits`)
       .push(newHabit)
-      .then((ref) => {
+      .then(() => {
         addHabit({
           ...newHabit,
         });
@@ -280,6 +280,27 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  const calculateStreak = (completed, createdAt) => {
+    let streak = 0;
+    let dateIndex = moment().valueOf();
+    if (completed) {
+      if (completed.includes(moment().format('DD-MM-YY'))) {
+        streak++;
+      }
+      while (dateIndex > createdAt) {
+        dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
+        if (completed.includes(moment(dateIndex).format('DD-MM-YY'))) {
+          streak++;
+        } else {
+          break;
+        }
+      }
+      return streak;
+    } else {
+      return 'Habit not completed yet';
+    }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -298,6 +319,7 @@ export const GlobalProvider = ({ children }) => {
         startSetTasks,
         startSetHabits,
         changeDate,
+        calculateStreak,
       }}
     >
       {children}

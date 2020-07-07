@@ -2,9 +2,12 @@ import React, { useContext, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const { habits, addHabitToTodoList, startSetHabits } = useContext(
-    GlobalContext
-  );
+  const {
+    habits,
+    addHabitToTodoList,
+    startSetHabits,
+    calculateStreak,
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     startSetHabits();
@@ -19,6 +22,7 @@ export default () => {
       {habits.map((habit) => (
         <div>
           <p>{habit.name}</p>
+          <p>Streak: {calculateStreak(habit.completed, habit.createdAt)}</p>
           <button onClick={() => addHabitToday(habit.id)}>+</button>
         </div>
       ))}
