@@ -6,12 +6,13 @@ import HabitsList from './HabitsList';
 export default () => {
   const { startAddHabit, dateRef, changeDate } = useContext(GlobalContext);
   const [name, setName] = useState('');
-  const [createdAt] = useState(moment().startOf('day').valueOf());
+  const [createdAt] = useState(
+    moment().subtract(10, 'days').startOf('day').valueOf()
+  );
   const [completed, setCompleted] = useState([]);
 
   const addNewHabit = (e) => {
     e.preventDefault();
-    //completed.push(0);
     startAddHabit({ name, createdAt, completed, habit: true });
     setCompleted([]);
     setName('');

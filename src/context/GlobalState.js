@@ -132,8 +132,10 @@ export const GlobalProvider = ({ children }) => {
         .ref(`habits/${id}`)
         .remove()
         .then(() => removeTask(id));
-
-      database.ref(`tasks/${dateRef}/${id}`).remove();
+      // Need to make this remove every instance of the habit
+      // 1. Get every instance of it
+      // 2. Remove each instance
+      //database.ref(`tasks/${dateRef}/${id}`).remove();
     } else {
       const completedArray = [];
       database
