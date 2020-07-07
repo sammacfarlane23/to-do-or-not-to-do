@@ -261,22 +261,15 @@ export const GlobalProvider = ({ children }) => {
       });
   };
 
-  const addHabitsToTodoList = () => {
-    const updates = { date: state.dateRef, completed: false };
+  const addHabitToTodoList = (id) => {
+    let habit;
     database
-      .ref(`/habits/`)
+      .ref(`/habits/${id}`)
       .once('value')
       .then((snapshot) => {
-        const habits = [];
-        snapshot.forEach((childSnapshot) => {
-          habits.push({
-            id: childSnapshot.key,
-            ...childSnapshot.val(),
-          });
-        });
-        habits.forEach((habit) => {
-          startAddItemToToDo(habit, state.dateRef, habit.id);
-        });
+        habit = snapshot.val();
+        console.log(habit);
+        startAddItemToToDo(habit, state.dateRef, id);
       });
   };
 
@@ -294,7 +287,7 @@ export const GlobalProvider = ({ children }) => {
         date: state.date,
         tasks: state.tasks,
         habits: state.habits,
-        addHabitsToTodoList,
+        addHabitToTodoList,
         startAddItemToToDo,
         startAddHabit,
         startAddHabitAndTask,

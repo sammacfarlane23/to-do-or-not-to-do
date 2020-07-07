@@ -4,14 +4,7 @@ import DateEdit from '../components/DateEdit';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const {
-    startSetTasks,
-    addHabitsToTodoList,
-    startSetHabits,
-    tasks,
-    habits,
-    dateRef,
-  } = useContext(GlobalContext);
+  const { startSetTasks, tasks, habits, dateRef } = useContext(GlobalContext);
 
   const viewState = () => {
     console.log('tasks: ', tasks);
@@ -21,10 +14,6 @@ export default () => {
     startSetTasks(dateRef);
   }, [tasks]);
 
-  useEffect(() => {
-    startSetHabits();
-  }, [habits]);
-
   return (
     <div>
       <div className='date-title'>
@@ -32,9 +21,6 @@ export default () => {
       </div>
       <button onClick={() => viewState()}>View State</button>
       <div className='item-list'>
-        <button onClick={() => addHabitsToTodoList()}>
-          Add habits to to-do list
-        </button>
         {tasks.length > 0 ? (
           tasks.map((task) => (
             <Item key={task.id} task={task}>
