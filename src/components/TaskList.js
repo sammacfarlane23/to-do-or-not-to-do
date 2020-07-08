@@ -6,10 +6,10 @@ import { GlobalContext } from '../context/GlobalState';
 export default () => {
   const { startSetTasks, tasks, habits, dateRef } = useContext(GlobalContext);
 
-  const viewState = () => {
-    console.log('tasks: ', tasks);
-    console.log('habits:', habits);
-  };
+  // const viewState = () => {
+  //   console.log('tasks: ', tasks);
+  //   console.log('habits:', habits);
+  // };
   useEffect(() => {
     startSetTasks(dateRef);
   }, [tasks]);
@@ -19,7 +19,6 @@ export default () => {
       <div className='date-title'>
         <DateEdit className='date' /> <h2>To-do List</h2>
       </div>
-      <button onClick={() => viewState()}>View State</button>
       <div className='item-list'>
         {tasks.length > 0 ? (
           tasks.map((task) => (

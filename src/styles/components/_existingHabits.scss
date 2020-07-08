@@ -1,0 +1,14 @@
+.existing-habits {
+  display: flex;
+  flex-direction: row;
+}
+
+.existing-habit-tile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem 2rem;
+  background-color: #4885ed;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}

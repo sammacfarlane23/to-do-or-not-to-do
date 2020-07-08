@@ -19,13 +19,18 @@ export default () => {
 
   return (
     <div>
-      {habits.map((habit) => (
-        <div>
-          <p>{habit.name}</p>
-          <p>Streak: {calculateStreak(habit.completed, habit.createdAt)}</p>
-          <button onClick={() => addHabitToday(habit.id)}>+</button>
-        </div>
-      ))}
+      <h3>Daily Habits (click to add to to-do list)</h3>
+      <div className='existing-habits'>
+        {habits.map((habit) => (
+          <div className='existing-habit-tile'>
+            <p>
+              <strong>{habit.name}</strong>
+            </p>
+            <p>{calculateStreak(habit.completed, habit.createdAt)}</p>
+            <button onClick={() => addHabitToday(habit.id)}>+</button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
