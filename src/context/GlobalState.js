@@ -156,6 +156,48 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const removeHabit = (id) => {
+    dispatch({
+      type: 'REMOVE_HABIT',
+      id,
+    });
+  };
+
+  const startRemoveHabit = (id, createdAt) => {
+    // Remove from habits section of database first
+    database
+      .ref(`habits/${id}`)
+      .remove()
+      .then(() => removeHabit(id));
+
+    // Next remove all instances of this habit on to-do lists
+    let dateIndex = moment().valueOf();
+    while (dateIndex > createdAt) {
+      let hasTask = false;
+      const date = moment(dateIndex).format('DD-MM-YY');
+      console.log(date);
+      var ref = database.ref(`tasks/${date}`);
+      ref
+        .once('value')
+        .then((snapshot) => {
+          hasTask = snapshot.hasChild(`${id}`);
+        })
+        .then(() => {
+          if (hasTask) {
+            database
+              .ref(`tasks/${date}/${id}`)
+              .remove()
+              .then(() => {
+                if (state.dateRef === date) {
+                  removeTask(id);
+                }
+              });
+          }
+        });
+      dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
+    }
+  };
+
   const editTask = (id, updates) => {
     dispatch({
       type: 'EDIT_TASK',
@@ -268,7 +310,6 @@ export const GlobalProvider = ({ children }) => {
       .once('value')
       .then((snapshot) => {
         habit = snapshot.val();
-        console.log(habit);
         startAddItemToToDo(habit, state.dateRef, id);
       });
   };
@@ -297,7 +338,7 @@ export const GlobalProvider = ({ children }) => {
       }
       return streak;
     } else {
-      return 'Habit not completed yet';
+      return streak;
     }
   };
 
@@ -313,6 +354,7 @@ export const GlobalProvider = ({ children }) => {
         startAddHabit,
         startAddHabitAndTask,
         startRemoveTask,
+        startRemoveHabit,
         startEditTask,
         startCompleteHabit,
         startUndoCompleteHabit,

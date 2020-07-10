@@ -1,13 +1,26 @@
 .add-item-form {
-  background-color: #f7f6f7;
+  background-color: #4885ed;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 45rem;
+  padding: 3rem;
+  border-radius: 10px;
 }
 
 .habit-switch {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   padding: 2rem;
+}
+
+.task-type {
+  padding: 0 2rem;
+}
+
+.switch-button {
+  margin: 0 2rem;
 }

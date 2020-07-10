@@ -3,45 +3,17 @@ import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
 
 export default (props) => {
-  const { startRemoveTask, changeDate, calculateStreak, date } = useContext(
+  const { startRemoveHabit, changeDate, calculateStreak, date } = useContext(
     GlobalContext
   );
 
   useEffect(() => changeDate(moment().valueOf()), []);
 
-  // Steps for calculating streak
-  // 1. Get current date
-  // 2. Minus one day off the current date and check if habit was completed
-  // 3. If true repeat until get to the day habit was initialised
-
-  // const calculateStreak = (completed, createdAt) => {
-  //   let streak = 0;
-  //   let dateIndex = date;
-  //   if (completed) {
-  //     if (completed.includes(moment().format('DD-MM-YY'))) {
-  //       streak++;
-  //     }
-  //     while (dateIndex > createdAt) {
-  //       dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
-  //       if (completed.includes(moment(dateIndex).format('DD-MM-YY'))) {
-  //         streak++;
-  //       } else {
-  //         break;
-  //       }
-  //     }
-  //     return streak;
-  //   } else {
-  //     return 'Habit not completed yet';
-  //   }
-  // };
-
   return (
     <div>
       <h3>{props.habit.name}</h3>
       <button
-        onClick={() =>
-          startRemoveTask({ id: props.habit.id, habit: props.habit.habit })
-        }
+        onClick={() => startRemoveHabit(props.habit.id, props.habit.createdAt)}
       >
         Remove
       </button>

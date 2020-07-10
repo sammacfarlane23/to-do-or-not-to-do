@@ -5,7 +5,7 @@ import ExistingHabitsList from './ExistingHabitsList';
 
 export default () => {
   return (
-    <div>
+    <div className='dashboard'>
       <ExistingHabitsList />
       <TaskList />
       <AddItem />

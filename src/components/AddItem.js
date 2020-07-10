@@ -1,23 +1,24 @@
-import React, { useState, useContext } from 'react';
-import moment from 'moment';
+import React, { useState, useContext, useEffect } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const { startAddItemToToDo, startAddHabitAndTask, dateRef } = useContext(
-    GlobalContext
-  );
+  const {
+    startAddItemToToDo,
+    startAddHabitAndTask,
+    dateRef,
+    date,
+  } = useContext(GlobalContext);
   const [name, setName] = useState('');
   const [habit, setHabit] = useState(false);
-  const [createdAt] = useState(moment().startOf('day').valueOf());
   const [taskCompleted] = useState(false);
 
   const addNewTask = (e) => {
     e.preventDefault();
     if (habit) {
-      startAddHabitAndTask({ name, habit, createdAt }, dateRef);
+      startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
     } else {
       startAddItemToToDo(
-        { name, habit, createdAt, completed: taskCompleted },
+        { name, habit, createdAt: date, completed: taskCompleted },
         dateRef
       );
     }
@@ -35,13 +36,13 @@ export default () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button>Add Item</button>
+        <button className='add-button'>+</button>
       </div>
       <div className='habit-switch'>
         {habit ? (
-          <p>One-off Task</p>
+          <p className='task-type'>One-off Task</p>
         ) : (
-          <p>
+          <p className='task-type'>
             <strong>One-off Task</strong>
           </p>
         )}
@@ -49,17 +50,18 @@ export default () => {
           <input
             id='checkbox'
             type='checkbox'
+            className='switch-button'
             onChange={(e) => setHabit(e.target.checked)}
             defaultChecked={false}
           />
           <span className='slider'></span>
         </label>
         {habit ? (
-          <p>
+          <p className='task-type'>
             <strong>Habit</strong>
           </p>
         ) : (
-          <p>Habit</p>
+          <p className='task-type'>Habit</p>
         )}
       </div>
     </form>
