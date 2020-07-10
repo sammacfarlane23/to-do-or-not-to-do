@@ -11,7 +11,7 @@ export default () => {
 
   useEffect(() => {
     startSetHabits();
-  }, [habits]);
+  }, [habits, startSetHabits]);
 
   const addHabitToday = (id) => {
     addHabitToTodoList(id);
@@ -22,7 +22,7 @@ export default () => {
       <h3>Daily Habits (click to add to to-do list)</h3>
       <div className='existing-habits'>
         {habits.map((habit) => (
-          <div className='existing-habit-tile'>
+          <div className='existing-habit-tile' key={habit.id}>
             <p className='habit-title'>
               <strong>{habit.name}</strong>
             </p>

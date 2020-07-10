@@ -175,7 +175,6 @@ export const GlobalProvider = ({ children }) => {
     while (dateIndex > createdAt) {
       let hasTask = false;
       const date = moment(dateIndex).format('DD-MM-YY');
-      console.log(date);
       var ref = database.ref(`tasks/${date}`);
       ref
         .once('value')
@@ -213,14 +212,14 @@ export const GlobalProvider = ({ children }) => {
       .then(() => editTask(id, updates));
   };
 
-  const completeHabit = (id, updates, dateRef) => {
-    dispatch({
-      type: 'COMPLETE_HABIT',
-      id,
-      updates,
-      dateRef,
-    });
-  };
+  // const completeHabit = (id, updates, dateRef) => {
+  //   dispatch({
+  //     type: 'COMPLETE_HABIT',
+  //     id,
+  //     updates,
+  //     dateRef,
+  //   });
+  // };
 
   const startCompleteHabit = (id, dateRef) => {
     const completedArray = [];

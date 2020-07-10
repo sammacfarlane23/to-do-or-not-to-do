@@ -1,13 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
 
 export default (props) => {
-  const { startRemoveHabit, changeDate, calculateStreak, date } = useContext(
-    GlobalContext
-  );
-
-  useEffect(() => changeDate(moment().valueOf()), []);
+  const { startRemoveHabit, calculateStreak } = useContext(GlobalContext);
 
   return (
     <div>
@@ -21,11 +17,6 @@ export default (props) => {
       <p>
         Habit completed{' '}
         {props.habit.completed ? props.habit.completed.length : 0} times
-      </p>
-      <p>
-        {props.habit.completed
-          ? props.habit.completed.map((date) => <p>{date}</p>)
-          : 0}
       </p>
       <p>
         Streak: {calculateStreak(props.habit.completed, props.habit.createdAt)}{' '}
