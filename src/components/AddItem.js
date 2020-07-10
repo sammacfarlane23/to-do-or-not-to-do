@@ -29,10 +29,11 @@ export default () => {
 
   return (
     <form onSubmit={addNewTask} className='add-item-form'>
-      <div>
+      <div className='text-input-button'>
         <input
           type='text'
           placeholder='Enter a new task'
+          className='add-item-name'
           value={name}
           onChange={(e) => setName(e.target.value)}
         />

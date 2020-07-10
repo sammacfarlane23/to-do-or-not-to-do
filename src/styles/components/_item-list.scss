@@ -1,4 +1,29 @@
+.task-list {
+}
+
 .item-list {
-  margin: 2rem;
+  margin-top: 0;
   max-width: 45rem;
+}
+
+.date-title {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+.date {
+  margin: 0rem;
+}
+
+.single-date-picker {
+  margin: 2rem;
+}
+
+.SingleDatePickerInput {
+  background-color: black;
+}
+
+.SingleDatePickerInput__withBorder {
+  border: none;
 }

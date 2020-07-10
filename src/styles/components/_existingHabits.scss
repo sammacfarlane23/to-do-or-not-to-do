@@ -1,29 +1,39 @@
 .existing-habits {
+  padding: 0 0 0 2rem;
+}
+
+.existing-habits-list {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .existing-habit-tile {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 1rem 2rem;
-  background-color: #4885ed;
-  padding: 0.5rem 1rem;
   border-radius: 5px;
   height: 5rem;
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 0.75rem;
+  border: 1px solid #4885ed;
+  box-shadow: 1px 1px 0px #4885ed, 2px 2px 0px #4885ed, 3px 3px 0px #4885ed,
+    4px 4px 0px #4885ed, 5px 5px 0px #4885ed, 6px 6px 0px #4885ed;
 }
 
 .habit-streak {
-  margin: 0 1rem;
+  margin: 0 0.5rem;
+  font-size: small;
 }
 
 .habit-title {
-  margin: 0 1rem;
+  margin: 0 0.5rem;
 }
 
 .add-button {
-  background-color: #4885ed;
+  background-color: white;
   border-radius: 50%;
-  border-color: black;
+  border-color: #4885ed;
 }

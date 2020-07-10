@@ -6,22 +6,27 @@ export default (props) => {
   const { startRemoveHabit, calculateStreak } = useContext(GlobalContext);
 
   return (
-    <div>
-      <h3>{props.habit.name}</h3>
+    <div className='habit-tile'>
+      <h3 className='habit-title'>{props.habit.name}</h3>
+      <p className='habit-info'>
+        Habit since: {moment(props.habit.createdAt).format('DD/MM/YY')}
+      </p>
+      {props.habit.completed ? (
+        <p className='habit-info'>
+          {props.habit.completed.length} total completions
+        </p>
+      ) : (
+        <p className='habit-info'>Habit not yet completed</p>
+      )}
+      <p className='habit-info'>
+        Current Streak:{' '}
+        {calculateStreak(props.habit.completed, props.habit.createdAt)} days
+      </p>
       <button
         onClick={() => startRemoveHabit(props.habit.id, props.habit.createdAt)}
       >
-        Remove
+        x
       </button>
-      <p>Habit since: {moment(props.habit.createdAt).format('Do MMM YYYY')}</p>
-      <p>
-        Habit completed{' '}
-        {props.habit.completed ? props.habit.completed.length : 0} times
-      </p>
-      <p>
-        Streak: {calculateStreak(props.habit.completed, props.habit.createdAt)}{' '}
-        days
-      </p>
     </div>
   );
 };

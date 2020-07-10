@@ -1,7 +1,10 @@
-.dashboard {
+.habits-page {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 100vw;
+}
+
+.habits-page-title {
+  margin: 1rem 0;
 }

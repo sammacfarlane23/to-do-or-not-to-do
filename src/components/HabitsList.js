@@ -5,13 +5,9 @@ import { GlobalContext } from '../context/GlobalState';
 export default () => {
   const { startSetHabits, habits } = useContext(GlobalContext);
   useEffect(() => startSetHabits(), []);
-  const viewState = () => {
-    console.log('habits:', habits);
-  };
 
   return (
-    <div>
-      <button onClick={() => viewState()}>View State</button>
+    <div className='habits-list'>
       {habits.map((habit) => (
         <Habit key={habit.id} habit={habit} />
       ))}
