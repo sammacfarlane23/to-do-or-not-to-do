@@ -7,6 +7,7 @@ export default () => {
     addHabitToTodoList,
     startSetHabits,
     calculateStreak,
+    date,
   } = useContext(GlobalContext);
 
   useEffect(() => {
@@ -20,24 +21,26 @@ export default () => {
   return (
     <div className='existing-habits'>
       <div className='existing-habits-list'>
-        {habits.map((habit) => (
-          <div className='existing-habit-tile' key={habit.id}>
-            <p className='habit-title'>
-              <strong>{habit.name}</strong>
-            </p>
-            {calculateStreak(habit.completed, habit.createdAt) === 0 || (
-              <p className='habit-streak'>
-                {calculateStreak(habit.completed, habit.createdAt)}🔥
+        {habits
+          .filter((habit) => habit.createdAt <= date)
+          .map((habit) => (
+            <div className='existing-habit-tile' key={habit.id}>
+              <p className='habit-title'>
+                <strong>{habit.name}</strong>
               </p>
-            )}
-            <button
-              className='add-button'
-              onClick={() => addHabitToday(habit.id)}
-            >
-              +
-            </button>
-          </div>
-        ))}
+              {calculateStreak(habit.completed, habit.createdAt) === 0 || (
+                <p className='habit-streak'>
+                  {calculateStreak(habit.completed, habit.createdAt)}🔥
+                </p>
+              )}
+              <button
+                className='add-button'
+                onClick={() => addHabitToday(habit.id)}
+              >
+                +
+              </button>
+            </div>
+          ))}
       </div>
     </div>
   );
