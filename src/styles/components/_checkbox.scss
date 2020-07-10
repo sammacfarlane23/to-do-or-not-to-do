@@ -3,7 +3,7 @@
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
+  //margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -30,6 +30,7 @@
   width: 25px;
   background-color: white;
   border-radius: 12.5px;
+  border: solid 1px #4c8bf5;
 }
 
 /* On mouse-over, add a grey background color */

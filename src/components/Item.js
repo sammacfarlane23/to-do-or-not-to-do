@@ -53,29 +53,35 @@ export default (props) => {
 
   return (
     <div className='item'>
-      {!habitCompletedToday && (
-        <label className='checkbox-container'>
-          <input type='checkbox' onChange={() => completeTask()} />
-          <span className='checkmark'></span>
-        </label>
-      )}
-      {habitCompletedToday && (
-        <label className='checkbox-container'>
-          <input
-            type='checkbox'
-            checked='checked'
-            onChange={() => completeTask()}
-          />
-          <span className='checkmark'></span>
-        </label>
-      )}
-      <button onClick={handleShowModal} className='item-name'>
-        <h1>{props.task.name}</h1>
-      </button>
-      {props.task.habit ? <p>Habit</p> : <p>Task</p>}
+      <div className='checkbox-name'>
+        {!habitCompletedToday && (
+          <label className='checkbox-container'>
+            <input type='checkbox' onChange={() => completeTask()} />
+            <span className='checkmark'></span>
+          </label>
+        )}
+        {habitCompletedToday && (
+          <label className='checkbox-container'>
+            <input
+              type='checkbox'
+              checked='checked'
+              onChange={() => completeTask()}
+            />
+            <span className='checkmark'></span>
+          </label>
+        )}
+        <button onClick={handleShowModal} className='item-name'>
+          <h1 className='task-name'>{props.task.name}</h1>
+          {props.task.habit ? (
+            <p className='task-type'>Habit</p>
+          ) : (
+            <p className='task-type'>Task</p>
+          )}
+        </button>
+      </div>
       <button
         onClick={() => startRemoveTask({ id: props.task.id }, dateRef)}
-        className='button button__remove'
+        className='button button--remove'
       >
         Remove
       </button>

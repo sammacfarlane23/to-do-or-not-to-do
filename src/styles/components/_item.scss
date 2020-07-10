@@ -1,16 +1,35 @@
 .item {
-  background: #4885ed;
+  background: white;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
-  padding: 0 2rem;
-  margin: 2rem;
-  margin-top: 0;
-  border-radius: 10px;
+  justify-content: space-between;
+  padding: 0 1rem;
+  width: 100%;
+  margin: 0;
+  border: none;
 }
 
 .item-name {
   border: none;
   background: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.task-name {
+  font-size: large;
+  margin: 0;
+}
+
+.task-type {
+  margin: 0;
+}
+
+.checkbox-name {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
