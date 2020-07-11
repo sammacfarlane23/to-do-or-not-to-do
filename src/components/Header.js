@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { auth } from '../firebase/firebase';
 
 export default () => {
   return (
@@ -24,6 +25,14 @@ export default () => {
       >
         My Habits
       </NavLink>
+      <button
+        className=''
+        onClick={() => {
+          auth.signOut();
+        }}
+      >
+        Sign out
+      </button>
     </div>
   );
 };

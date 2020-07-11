@@ -3,19 +3,19 @@ import moment from 'moment';
 import TasksReducer from '../reducers/tasks';
 import database from '../firebase/firebase';
 
-const initialState = {
+const initialTaskState = {
   date: moment().valueOf(),
   dateRef: moment().format('DD-MM-YY'),
   tasks: [],
   habits: [],
 };
 
-export const GlobalContext = createContext(initialState);
+export const GlobalContext = createContext(initialTaskState);
 export const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(TasksReducer, initialState);
+  const [taskState, taskDispatch] = useReducer(TasksReducer, initialTaskState);
 
   const addTask = (task) => {
-    dispatch({
+    taskDispatch({
       type: 'ADD_TASK',
       task,
     });
@@ -58,7 +58,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const addHabit = (habit) => {
-    dispatch({
+    taskDispatch({
       type: 'ADD_HABIT',
       habit,
     });
@@ -120,7 +120,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const removeTask = (id) => {
-    dispatch({
+    taskDispatch({
       type: 'REMOVE_TASK',
       id,
     });
@@ -157,7 +157,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const removeHabit = (id) => {
-    dispatch({
+    taskDispatch({
       type: 'REMOVE_HABIT',
       id,
     });
@@ -187,7 +187,7 @@ export const GlobalProvider = ({ children }) => {
               .ref(`tasks/${date}/${id}`)
               .remove()
               .then(() => {
-                if (state.dateRef === date) {
+                if (taskState.dateRef === date) {
                   removeTask(id);
                 }
               });
@@ -198,7 +198,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const editTask = (id, updates) => {
-    dispatch({
+    taskDispatch({
       type: 'EDIT_TASK',
       id,
       updates,
@@ -257,7 +257,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const setTasks = (tasks) => {
-    dispatch({
+    taskDispatch({
       type: 'SET_TASKS',
       tasks,
     });
@@ -280,7 +280,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const setHabits = (habits) => {
-    dispatch({
+    taskDispatch({
       type: 'SET_HABITS',
       habits,
     });
@@ -309,12 +309,12 @@ export const GlobalProvider = ({ children }) => {
       .once('value')
       .then((snapshot) => {
         habit = snapshot.val();
-        startAddItemToToDo(habit, state.dateRef, id);
+        startAddItemToToDo(habit, taskState.dateRef, id);
       });
   };
 
   const changeDate = (date) => {
-    dispatch({
+    taskDispatch({
       type: 'CHANGE_DATE',
       date,
     });
@@ -344,10 +344,10 @@ export const GlobalProvider = ({ children }) => {
   return (
     <GlobalContext.Provider
       value={{
-        dateRef: state.dateRef,
-        date: state.date,
-        tasks: state.tasks,
-        habits: state.habits,
+        dateRef: taskState.dateRef,
+        date: taskState.date,
+        tasks: taskState.tasks,
+        habits: taskState.habits,
         addHabitToTodoList,
         startAddItemToToDo,
         startAddHabit,
