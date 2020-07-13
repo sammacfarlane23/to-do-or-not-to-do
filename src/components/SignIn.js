@@ -39,7 +39,7 @@ const SignIn = () => {
             className=''
             name='userEmail'
             value={email}
-            placeholder='E.g: faruq123@gmail.com'
+            placeholder='E.g: samuel@gmail.com'
             id='userEmail'
             onChange={(event) => onChangeHandler(event)}
           />

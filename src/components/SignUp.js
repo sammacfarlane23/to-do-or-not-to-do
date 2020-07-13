@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from '@reach/router';
-import {
-  auth,
-  generateUserDocument,
-  signInWithGoogle,
-} from '../firebase/firebase';
+import { auth, signInWithGoogle } from '../firebase/firebase';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [displayName, setDisplayName] = useState('');
   const [error, setError] = useState(null);
 
   const createUserWithEmailAndPasswordHandler = async (
@@ -19,17 +14,13 @@ const SignUp = () => {
   ) => {
     event.preventDefault();
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await auth.createUserWithEmailAndPassword(email, password);
     } catch (error) {
       setError('Error Signing up with email and password');
     }
 
     setEmail('');
     setPassword('');
-    setDisplayName('');
   };
 
   const onChangeHandler = (event) => {
@@ -38,8 +29,6 @@ const SignUp = () => {
       setEmail(value);
     } else if (name === 'userPassword') {
       setPassword(value);
-    } else if (name === 'displayName') {
-      setDisplayName(value);
     }
   };
 
@@ -49,18 +38,6 @@ const SignUp = () => {
       <div className=''>
         {error !== null && <div className=''>{error}</div>}
         <form className=''>
-          <label htmlFor='displayName' className=''>
-            Display Name:
-          </label>
-          <input
-            type='text'
-            className=''
-            name='displayName'
-            value={displayName}
-            placeholder='E.g: Samuel'
-            id='displayName'
-            onChange={(event) => onChangeHandler(event)}
-          />
           <label htmlFor='userEmail' className=''>
             Email:
           </label>

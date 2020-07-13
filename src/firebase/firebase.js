@@ -17,10 +17,10 @@ firebase.analytics();
 const database = firebase.database();
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
-export const auth = firebase.auth();
-
 export const signInWithGoogle = () => {
   auth.signInWithRedirect(googleAuthProvider);
 };
+
+export const auth = firebase.auth();
 
 export default database;

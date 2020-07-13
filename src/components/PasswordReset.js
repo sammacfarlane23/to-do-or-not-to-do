@@ -38,7 +38,7 @@ const PasswordReset = () => {
             <div className=''>An email has been sent to you!</div>
           )}
           {error !== null && <div className=''>{error}</div>}
-          <label htmlFor='userEmail' className='w-full block'>
+          <label htmlFor='userEmail' className=''>
             Email:
           </label>
           <input
