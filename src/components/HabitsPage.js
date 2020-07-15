@@ -4,14 +4,13 @@ import { GlobalContext } from '../context/GlobalState';
 import HabitsList from './HabitsList';
 
 export default () => {
-  const { startAddHabit } = useContext(GlobalContext);
+  const { startAddHabit, date } = useContext(GlobalContext);
   const [name, setName] = useState('');
-  const [createdAt] = useState(moment().startOf('day').valueOf());
   const [completed, setCompleted] = useState([]);
 
   const addNewHabit = (e) => {
     e.preventDefault();
-    startAddHabit({ name, createdAt, completed, habit: true });
+    startAddHabit({ name, createdAt: date, completed, habit: true });
     setCompleted([]);
     setName('');
   };

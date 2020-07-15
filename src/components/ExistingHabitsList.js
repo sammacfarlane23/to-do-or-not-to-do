@@ -6,7 +6,7 @@ export default () => {
     habits,
     addHabitToTodoList,
     startSetHabits,
-    calculateStreak,
+    calculateCurrentStreak,
     date,
   } = useContext(GlobalContext);
 
@@ -28,9 +28,10 @@ export default () => {
               <p className='habit-title'>
                 <strong>{habit.name}</strong>
               </p>
-              {calculateStreak(habit.completed, habit.createdAt) === 0 || (
+              {calculateCurrentStreak(habit.completed, habit.createdAt) ===
+                0 || (
                 <p className='habit-streak'>
-                  {calculateStreak(habit.completed, habit.createdAt)}🔥
+                  {calculateCurrentStreak(habit.completed, habit.createdAt)}🔥
                 </p>
               )}
               <button

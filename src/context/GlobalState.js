@@ -5,7 +5,7 @@ import database from '../firebase/firebase';
 import { UserContext } from './UserProvider';
 
 const initialTaskState = {
-  date: moment().valueOf(),
+  date: moment().startOf('day').valueOf(),
   dateRef: moment().format('DD-MM-YY'),
   tasks: [],
   habits: [],
@@ -329,7 +329,7 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const calculateStreak = (completed, createdAt) => {
+  const calculateCurrentStreak = (completed, createdAt) => {
     let streak = 0;
     let dateIndex = moment().valueOf();
     if (completed) {
@@ -345,6 +345,43 @@ export const GlobalProvider = ({ children }) => {
         }
       }
       return streak;
+    } else {
+      return streak;
+    }
+  };
+
+  const calculateLongestStreak = (completed, createdAt) => {
+    let streak = 0;
+    const streaks = [];
+    const dateIndex = moment().valueOf();
+    let startDate = createdAt;
+
+    // if habit has been completed
+    if (completed) {
+      // Check if completed each day between habit creation date and today
+      while (startDate <= dateIndex) {
+        // If habit has not been completed on a day and there
+        // is a streak add it to the array of streaks and reset streak
+        if (!completed.includes(moment(startDate).format('DD-MM-YY'))) {
+          if (streak !== 0) {
+            streaks.push(streak);
+          }
+          streak = 0;
+
+          // If it has been completed increment the streak
+        } else {
+          streak++;
+        }
+
+        // Increment day by one
+        startDate = moment(startDate).add(1, 'day').valueOf();
+      }
+
+      // Add any streaks running up to the current day to the array
+      streaks.push(streak);
+
+      // Return the largest streak in the streaks array
+      return Math.max(...streaks);
     } else {
       return streak;
     }
@@ -369,7 +406,8 @@ export const GlobalProvider = ({ children }) => {
         startSetTasks,
         startSetHabits,
         changeDate,
-        calculateStreak,
+        calculateCurrentStreak,
+        calculateLongestStreak,
       }}
     >
       {children}

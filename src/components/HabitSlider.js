@@ -5,7 +5,7 @@ import randomColor from 'randomcolor';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const { habits, calculateStreak } = useContext(GlobalContext);
+  const { habits, calculateCurrentStreak } = useContext(GlobalContext);
   const [sliderRef, slider] = useKeenSlider({
     loop: true,
     spacing: 10,
@@ -30,7 +30,7 @@ export default () => {
             }}
           >
             <p>{habit.name}</p>
-            <p>{calculateStreak(habit.completed, habit.createdAt)}</p>
+            <p>{calculateCurrentStreak(habit.completed, habit.createdAt)}</p>
             <button>+</button>
           </div>
         );

@@ -3,7 +3,11 @@ import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
 
 export default (props) => {
-  const { startRemoveHabit, calculateStreak } = useContext(GlobalContext);
+  const {
+    startRemoveHabit,
+    calculateCurrentStreak,
+    calculateLongestStreak,
+  } = useContext(GlobalContext);
 
   return (
     <div className='habit-tile'>
@@ -20,7 +24,12 @@ export default (props) => {
       )}
       <p className='habit-info'>
         Current Streak:{' '}
-        {calculateStreak(props.habit.completed, props.habit.createdAt)} days
+        {calculateCurrentStreak(props.habit.completed, props.habit.createdAt)}{' '}
+        days
+      </p>
+      <p className='habit-info'>
+        Longest Streak:{' '}
+        {calculateLongestStreak(props.habit.completed, props.habit.createdAt)}
       </p>
       <button
         onClick={() => startRemoveHabit(props.habit.id, props.habit.createdAt)}
