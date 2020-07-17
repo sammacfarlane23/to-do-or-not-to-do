@@ -9,10 +9,24 @@ export default (props) => {
     startCompleteHabit,
     startUndoCompleteHabit,
     dateRef,
+    isCompleteToday,
   } = useContext(GlobalContext);
 
+  let defaultHabitCompletedToday;
+  if (props.habit) {
+    if (props.habit.includes(dateRef)) {
+      defaultHabitCompletedToday = true;
+    } else {
+      defaultHabitCompletedToday = false;
+    }
+  } else {
+    defaultHabitCompletedToday = props.completed;
+  }
+
   const [showModal, setShowModal] = useState(false);
-  const [habitCompletedToday, setHabitCompletedToday] = useState();
+  const [habitCompletedToday, setHabitCompletedToday] = useState(
+    defaultHabitCompletedToday
+  );
 
   const handleShowModal = () => setShowModal(true);
 
@@ -29,26 +43,26 @@ export default (props) => {
     }
   };
 
-  const isCompleteToday = () => {
-    let completedToday;
-    if (props.task.completed) {
-      if (props.task.habit) {
-        props.task.completed.forEach((date) => {
-          if (date === dateRef) {
-            return (completedToday = true);
-          } else completedToday = false;
-        });
-      } else {
-        completedToday = props.task.completed;
-      }
-    } else {
-      completedToday = false;
-    }
-    setHabitCompletedToday(completedToday);
-  };
+  // const isCompleteToday = () => {
+  //   let completedToday;
+  //   if (props.task.completed) {
+  //     if (props.task.habit) {
+  //       props.task.completed.forEach((date) => {
+  //         if (date === dateRef) {
+  //           return (completedToday = true);
+  //         } else completedToday = false;
+  //       });
+  //     } else {
+  //       completedToday = props.task.completed;
+  //     }
+  //   } else {
+  //     completedToday = false;
+  //   }
+  //   setHabitCompletedToday(completedToday);
+  // };
 
   useEffect(() => {
-    isCompleteToday();
+    setHabitCompletedToday(isCompleteToday(props.task, dateRef));
   });
 
   return (

@@ -387,6 +387,85 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  const isCompleteToday = (task, dateRef) => {
+    let completedToday;
+    if (task.completed) {
+      if (task.habit) {
+        task.completed.forEach((date) => {
+          if (date === dateRef) {
+            completedToday = true;
+          } else completedToday = false;
+        });
+      } else {
+        completedToday = task.completed;
+      }
+    } else {
+      completedToday = false;
+    }
+    return completedToday;
+  };
+
+  const sortTasks = (a, b) => {
+    const aCompleteToday = isCompleteToday(a, taskState.dateRef);
+    const bCompleteToday = isCompleteToday(b, taskState.dateRef);
+
+    if (!aCompleteToday && bCompleteToday) {
+      return -1;
+    } else if (aCompleteToday && !bCompleteToday) {
+      return 1;
+    } else {
+      return 0;
+    }
+    // // If both are habits
+    // if (a.habit && b.habit) {
+    //   // If a is not completed and b is
+    //   if (!a.completed.dateRef && b.completed.dateRef) {
+    //     return -1; // a first
+    //   } // If a is completed and b is not
+    //   else if (a.completed.dateRef && !b.completed.dateRef) {
+    //     return 1; // b first
+    //   } else {
+    //     return 0;
+    //   }
+    // } // If a is a habit and b is a task
+    // else if (a.habit && !b.habit) {
+    //   // If a is not completed and b is
+    //   if (a.completed) {
+    //     if (!a.completed.includes(dateRef) && b.completed) {
+    //       return -1; // a first
+    //     }
+    //   }
+    //   // If a is completed and b is not
+    //   else if (a.completed.dateRef && !b.completed) {
+    //     return 1;
+    //   } else {
+    //     return 0;
+    //   }
+    // } // If a is a task and b is a habit
+    // else if (!a.habit && b.habit) {
+    //   // If a is not completed and b is
+    //   if (!a.completed && b.completed.dateRef) {
+    //     return -1; // a first
+    //   } // If a is completed and b is not
+    //   else if (a.completed && !b.completed.dateRef) {
+    //     return 1; // b first
+    //   } else {
+    //     return 0;
+    //   }
+    // } // If both are tasks
+    // else if (!a.habit && !b.habit) {
+    //   // If a is not completed and b is
+    //   if (!a.completed && b.completed) {
+    //     return -1; // a first
+    //   } // If a is completed and b is not
+    //   else if (a.completed && !b.completed) {
+    //     return 1; // b first
+    //   } else {
+    //     return 0;
+    //   }
+    // }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -408,6 +487,8 @@ export const GlobalProvider = ({ children }) => {
         changeDate,
         calculateCurrentStreak,
         calculateLongestStreak,
+        sortTasks,
+        isCompleteToday,
       }}
     >
       {children}

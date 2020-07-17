@@ -5,7 +5,9 @@ import ExistingHabitsList from './ExistingHabitsList';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const { startSetTasks, tasks, dateRef } = useContext(GlobalContext);
+  const { startSetTasks, tasks, dateRef, sortTasks } = useContext(
+    GlobalContext
+  );
 
   useEffect(() => {
     startSetTasks(dateRef);
@@ -19,7 +21,9 @@ export default () => {
       </div>
       <div className='item-list'>
         {tasks.length > 0 ? (
-          tasks.map((task) => <Item key={task.id} task={task} />)
+          tasks
+            .sort(sortTasks)
+            .map((task) => <Item key={task.id} task={task} />)
         ) : (
           <p>No tasks</p>
         )}
