@@ -33,6 +33,11 @@ export default (state, action) => {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.id),
       };
+    case 'REMOVE_ALL_TASKS':
+      return {
+        ...state,
+        tasks: [],
+      };
     case 'REMOVE_HABIT':
       return {
         ...state,

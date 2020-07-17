@@ -43,24 +43,6 @@ export default (props) => {
     }
   };
 
-  // const isCompleteToday = () => {
-  //   let completedToday;
-  //   if (props.task.completed) {
-  //     if (props.task.habit) {
-  //       props.task.completed.forEach((date) => {
-  //         if (date === dateRef) {
-  //           return (completedToday = true);
-  //         } else completedToday = false;
-  //       });
-  //     } else {
-  //       completedToday = props.task.completed;
-  //     }
-  //   } else {
-  //     completedToday = false;
-  //   }
-  //   setHabitCompletedToday(completedToday);
-  // };
-
   useEffect(() => {
     setHabitCompletedToday(isCompleteToday(props.task, dateRef));
   });

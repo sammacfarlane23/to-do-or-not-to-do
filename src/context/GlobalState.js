@@ -129,16 +129,13 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
+  // Can use this function to only delete a habit from today's list by not passing in the habit property
   const startRemoveTask = ({ id, habit } = {}, dateRef) => {
     if (habit) {
       database
         .ref(`${user.uid}/habits/${id}`)
         .remove()
         .then(() => removeTask(id));
-      // Need to make this remove every instance of the habit
-      // 1. Get every instance of it
-      // 2. Remove each instance
-      //database.ref(`tasks/${dateRef}/${id}`).remove();
     } else {
       const completedArray = [];
       database
@@ -159,6 +156,20 @@ export const GlobalProvider = ({ children }) => {
         .then(() => database.ref(`${user.uid}/tasks/${dateRef}/${id}`).remove())
         .then(() => removeTask(id));
     }
+  };
+
+  const removeAllTasks = () => {
+    taskDispatch({
+      type: 'REMOVE_ALL_TASKS',
+    });
+  };
+
+  const startRemoveAllTasks = (tasks, dateRef) => {
+    tasks.forEach((task) => {
+      // By running this function and not passing in the habit property it only deletes today's instance
+      startRemoveTask({ id: task.id }, dateRef);
+    });
+    removeAllTasks();
   };
 
   const removeHabit = (id) => {
@@ -416,54 +427,6 @@ export const GlobalProvider = ({ children }) => {
     } else {
       return 0;
     }
-    // // If both are habits
-    // if (a.habit && b.habit) {
-    //   // If a is not completed and b is
-    //   if (!a.completed.dateRef && b.completed.dateRef) {
-    //     return -1; // a first
-    //   } // If a is completed and b is not
-    //   else if (a.completed.dateRef && !b.completed.dateRef) {
-    //     return 1; // b first
-    //   } else {
-    //     return 0;
-    //   }
-    // } // If a is a habit and b is a task
-    // else if (a.habit && !b.habit) {
-    //   // If a is not completed and b is
-    //   if (a.completed) {
-    //     if (!a.completed.includes(dateRef) && b.completed) {
-    //       return -1; // a first
-    //     }
-    //   }
-    //   // If a is completed and b is not
-    //   else if (a.completed.dateRef && !b.completed) {
-    //     return 1;
-    //   } else {
-    //     return 0;
-    //   }
-    // } // If a is a task and b is a habit
-    // else if (!a.habit && b.habit) {
-    //   // If a is not completed and b is
-    //   if (!a.completed && b.completed.dateRef) {
-    //     return -1; // a first
-    //   } // If a is completed and b is not
-    //   else if (a.completed && !b.completed.dateRef) {
-    //     return 1; // b first
-    //   } else {
-    //     return 0;
-    //   }
-    // } // If both are tasks
-    // else if (!a.habit && !b.habit) {
-    //   // If a is not completed and b is
-    //   if (!a.completed && b.completed) {
-    //     return -1; // a first
-    //   } // If a is completed and b is not
-    //   else if (a.completed && !b.completed) {
-    //     return 1; // b first
-    //   } else {
-    //     return 0;
-    //   }
-    // }
   };
 
   return (
@@ -478,6 +441,7 @@ export const GlobalProvider = ({ children }) => {
         startAddHabit,
         startAddHabitAndTask,
         startRemoveTask,
+        startRemoveAllTasks,
         startRemoveHabit,
         startEditTask,
         startCompleteHabit,
