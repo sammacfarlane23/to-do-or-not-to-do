@@ -6,28 +6,42 @@ export default () => {
   const {
     startAddItemToToDo,
     startAddHabitAndTask,
+    addHabitToTodoList,
     dateRef,
     date,
     habits,
   } = useContext(GlobalContext);
 
   const [name, setName] = useState('');
-  const [habit, setHabit] = useState(false);
+  const [habit, setHabit] = useState(true);
   const [taskCompleted] = useState(false);
 
   const addNewTask = (e) => {
     e.preventDefault();
+
     if (habit) {
-      startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
+      let exists = false;
+      let id;
+      // Check if the typed habit already exists
+      habits.forEach((habit) => {
+        if (name === habit.name) {
+          exists = true;
+          id = habit.id;
+        }
+      });
+      // If habit already exists add it to today's todo list and if not create a new one and add it
+      exists
+        ? addHabitToTodoList(id)
+        : startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
     } else {
       startAddItemToToDo(
         { name, habit, createdAt: date, completed: taskCompleted },
         dateRef
       );
     }
-    setHabit(false);
+    setHabit(true);
     setName('');
-    document.getElementById('checkbox').checked = false;
+    document.getElementById('checkbox').checked = true;
   };
 
   return (
@@ -39,7 +53,8 @@ export default () => {
           items={habits}
           shouldItemRender={(item, name) =>
             item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 &&
-            name.length > 0
+            name.length > 0 &&
+            habit
           }
           getItemValue={(item) => item.name}
           renderItem={(item, highlighted) => (
@@ -70,7 +85,7 @@ export default () => {
             type='checkbox'
             className='switch-button'
             onChange={(e) => setHabit(e.target.checked)}
-            defaultChecked={false}
+            defaultChecked={true}
           />
           <span className='slider'></span>
         </label>
