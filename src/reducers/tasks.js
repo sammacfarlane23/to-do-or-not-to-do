@@ -28,6 +28,20 @@ export default (state, action) => {
           }
         }),
       };
+    case 'EDIT_HABIT':
+      return {
+        ...state,
+        habits: state.habits.map((habit) => {
+          if (habit.id === action.id) {
+            return {
+              ...habit,
+              ...action.updates,
+            };
+          } else {
+            return habit;
+          }
+        }),
+      };
     case 'REMOVE_TASK':
       return {
         ...state,

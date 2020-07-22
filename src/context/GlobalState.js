@@ -228,6 +228,44 @@ export const GlobalProvider = ({ children }) => {
       .then(() => editTask(id, updates));
   };
 
+  const editHabit = (id, updates) => {
+    taskDispatch({
+      type: 'EDIT_HABIT',
+      id,
+      updates,
+    });
+  };
+
+  const startEditHabit = (id, updates, createdAt) => {
+    database
+      .ref(`${user.uid}/habits/${id}`)
+      .update(updates)
+      .then(() => editHabit(id, updates));
+
+    // Check if a day has the task and if it does, edit it
+    // Should probably abstract this into a function as it's used more than once
+    let dateIndex = moment().valueOf();
+    while (dateIndex > createdAt) {
+      let hasTask = false;
+      const date = moment(dateIndex).format('DD-MM-YY');
+      var ref = database.ref(`${user.uid}/tasks/${date}`);
+      ref
+        .once('value')
+        .then((snapshot) => {
+          hasTask = snapshot.hasChild(`${id}`);
+        })
+        .then(() => {
+          if (hasTask) {
+            database
+              .ref(`${user.uid}/tasks/${date}/${id}`)
+              .update(updates)
+              .then(() => editHabit(id, updates));
+          }
+        });
+      dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
+    }
+  };
+
   const startCompleteHabit = (id, dateRef) => {
     const completedArray = [];
     database
@@ -437,6 +475,7 @@ export const GlobalProvider = ({ children }) => {
         startRemoveAllTasks,
         startRemoveHabit,
         startEditTask,
+        startEditHabit,
         startCompleteHabit,
         startUndoCompleteHabit,
         startSetTasks,

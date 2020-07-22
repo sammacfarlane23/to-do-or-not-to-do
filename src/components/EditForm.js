@@ -6,15 +6,20 @@ export default ({ task, closeModal }) => {
   const [name, setName] = useState(task.name);
   const [habit] = useState(task.habit);
   const [createdAt] = useState(task.createdAt);
-  const { startEditTask, startRemoveTask, dateRef } = useContext(GlobalContext);
+  const {
+    startEditTask,
+    startEditHabit,
+    startRemoveTask,
+    startRemoveHabit,
+    dateRef,
+  } = useContext(GlobalContext);
 
   const updates = { name, habit, createdAt };
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (task.habit) {
-      // Need to make this function next
-      //startEditHabit();
+      startEditHabit(task.id, updates, task.createdAt);
     } else {
       startEditTask(task.id, updates, dateRef);
     }
@@ -35,7 +40,14 @@ export default ({ task, closeModal }) => {
         onChange={onTaskNameChange}
       />
       <p>Habit since: {moment(createdAt).format('Do MMM')}</p>
-      <button type='button' onClick={() => startRemoveTask({ id: task.id })}>
+      <button
+        type='button'
+        onClick={() => {
+          task.habit
+            ? startRemoveHabit(task.id, task.createdAt)
+            : startRemoveTask({ id: task.id });
+        }}
+      >
         Remove
       </button>
       <button>Done</button>
