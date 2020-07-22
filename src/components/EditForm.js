@@ -12,7 +12,12 @@ export default ({ task, closeModal }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    startEditTask(task.id, updates, dateRef);
+    if (task.habit) {
+      // Need to make this function next
+      //startEditHabit();
+    } else {
+      startEditTask(task.id, updates, dateRef);
+    }
     closeModal();
   };
 

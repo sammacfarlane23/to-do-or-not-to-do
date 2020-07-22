@@ -228,15 +228,6 @@ export const GlobalProvider = ({ children }) => {
       .then(() => editTask(id, updates));
   };
 
-  // const completeHabit = (id, updates, dateRef) => {
-  //   dispatch({
-  //     type: 'COMPLETE_HABIT',
-  //     id,
-  //     updates,
-  //     dateRef,
-  //   });
-  // };
-
   const startCompleteHabit = (id, dateRef) => {
     const completedArray = [];
     database
@@ -398,6 +389,7 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
+  // Check if a given habit or task has been completed today
   const isCompleteToday = (task, dateRef) => {
     let completedToday;
     if (task.completed) {
@@ -416,6 +408,7 @@ export const GlobalProvider = ({ children }) => {
     return completedToday;
   };
 
+  // Sort tasks by whether they have been completed today or not
   const sortTasks = (a, b) => {
     const aCompleteToday = isCompleteToday(a, taskState.dateRef);
     const bCompleteToday = isCompleteToday(b, taskState.dateRef);

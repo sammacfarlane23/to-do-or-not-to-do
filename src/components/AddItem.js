@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import ReactAutocomplete from 'react-autocomplete';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
@@ -7,7 +8,9 @@ export default () => {
     startAddHabitAndTask,
     dateRef,
     date,
+    habits,
   } = useContext(GlobalContext);
+
   const [name, setName] = useState('');
   const [habit, setHabit] = useState(false);
   const [taskCompleted] = useState(false);
@@ -30,12 +33,26 @@ export default () => {
   return (
     <form onSubmit={addNewTask} className='add-item-form'>
       <div className='text-input-button'>
-        <input
-          type='text'
-          placeholder='Enter a new task'
+        <ReactAutocomplete
+          inputProps={{ placeholder: 'Add a new task' }}
           className='add-item-name'
+          items={habits}
+          shouldItemRender={(item, name) =>
+            item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 &&
+            name.length > 0
+          }
+          getItemValue={(item) => item.name}
+          renderItem={(item, highlighted) => (
+            <div
+              key={item.id}
+              style={{ backgroundColor: highlighted ? '#eee' : 'transparent' }}
+            >
+              {item.name}
+            </div>
+          )}
           value={name}
           onChange={(e) => setName(e.target.value)}
+          onSelect={(name) => setName(name)}
         />
         <button className='add-button'>+</button>
       </div>

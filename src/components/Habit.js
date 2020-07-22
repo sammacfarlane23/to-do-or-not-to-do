@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
+import ItemModal from './ItemModal';
 
 export default (props) => {
   const {
@@ -8,6 +9,12 @@ export default (props) => {
     calculateCurrentStreak,
     calculateLongestStreak,
   } = useContext(GlobalContext);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => setShowModal(true);
+
+  const closeModal = () => setShowModal(false);
 
   return (
     <div className='habit-tile'>
@@ -36,6 +43,12 @@ export default (props) => {
       >
         x
       </button>
+      <button onClick={handleShowModal}>Edit</button>
+      <ItemModal
+        showModal={showModal}
+        closeModal={closeModal}
+        task={props.habit}
+      />
     </div>
   );
 };
