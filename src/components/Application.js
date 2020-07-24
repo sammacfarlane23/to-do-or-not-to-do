@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useHistory } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Router } from '@reach/router';
 import { UserContext } from '../context/UserProvider';
@@ -24,7 +24,7 @@ export default () => {
     </GlobalProvider>
   ) : (
     <Router>
-      <SignUp path='signUp' />
+      <SignUp exact path='signUp' />
       <SignIn path='/' />
       <PasswordReset path='passwordReset' />
     </Router>
