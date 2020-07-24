@@ -8,7 +8,7 @@ export default (props) => {
       isOpen={props.showModal}
       onRequestClose={props.closeModal}
       contentLabel='Task Modal'
-      closeTimeoutMS={500}
+      closeTimeoutMS={300}
       ariaHideApp={false}
     >
       <EditForm task={props.task} closeModal={props.closeModal} />

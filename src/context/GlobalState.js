@@ -184,7 +184,9 @@ export const GlobalProvider = ({ children }) => {
     database
       .ref(`${user.uid}/habits/${id}`)
       .remove()
-      .then(() => removeHabit(id));
+      .then(() => {
+        removeHabit(id);
+      });
 
     // Next remove all instances of this habit on to-do lists
     let dateIndex = moment().valueOf();
@@ -266,7 +268,7 @@ export const GlobalProvider = ({ children }) => {
     }
   };
 
-  const startCompleteHabit = (id, dateRef) => {
+  const startCompleteHabit = (id, createdAt, dateRef) => {
     const completedArray = [];
     database
       .ref(`${user.uid}/habits/${id}/completed`)
@@ -283,9 +285,30 @@ export const GlobalProvider = ({ children }) => {
           .set(completedArray);
         database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
       });
+
+    // Update completed array for all instances of habit
+    let dateIndex = moment().valueOf();
+    while (dateIndex > createdAt) {
+      let hasTask = false;
+      const date = moment(dateIndex).format('DD-MM-YY');
+      var ref = database.ref(`${user.uid}/tasks/${date}`);
+      ref
+        .once('value')
+        .then((snapshot) => {
+          hasTask = snapshot.hasChild(`${id}`);
+        })
+        .then(() => {
+          if (hasTask) {
+            database
+              .ref(`${user.uid}/tasks/${date}/${id}/completed`)
+              .set(completedArray);
+          }
+        });
+      dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
+    }
   };
 
-  const startUndoCompleteHabit = (id, dateRef) => {
+  const startUndoCompleteHabit = (id, createdAt, dateRef) => {
     const completedArray = [];
     database
       .ref(`${user.uid}/habits/${id}/completed`)
@@ -303,6 +326,27 @@ export const GlobalProvider = ({ children }) => {
           .set(completedArray);
         database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
       });
+
+    // Update completed array for all instances of habit
+    let dateIndex = moment().valueOf();
+    while (dateIndex > createdAt) {
+      let hasTask = false;
+      const date = moment(dateIndex).format('DD-MM-YY');
+      var ref = database.ref(`${user.uid}/tasks/${date}`);
+      ref
+        .once('value')
+        .then((snapshot) => {
+          hasTask = snapshot.hasChild(`${id}`);
+        })
+        .then(() => {
+          if (hasTask) {
+            database
+              .ref(`${user.uid}/tasks/${date}/${id}/completed`)
+              .set(completedArray);
+          }
+        });
+      dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
+    }
   };
 
   const setTasks = (tasks) => {

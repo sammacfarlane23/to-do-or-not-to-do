@@ -2,19 +2,23 @@ import React, { useState, useContext } from 'react';
 import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
 import ItemModal from './ItemModal';
+import DeleteModal from './DeleteModal';
 
 export default (props) => {
-  const {
-    startRemoveHabit,
-    calculateCurrentStreak,
-    calculateLongestStreak,
-  } = useContext(GlobalContext);
+  const { calculateCurrentStreak, calculateLongestStreak } = useContext(
+    GlobalContext
+  );
 
-  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
-  const handleShowModal = () => setShowModal(true);
+  const handleShowDeleteModal = () => setShowDeleteModal(true);
+  const handleShowEditModal = () => setShowEditModal(true);
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowEditModal(false);
+    setShowDeleteModal(false);
+  };
 
   return (
     <div className='habit-tile'>
@@ -38,16 +42,20 @@ export default (props) => {
         Longest Streak:{' '}
         {calculateLongestStreak(props.habit.completed, props.habit.createdAt)}
       </p>
-      <button
-        onClick={() => startRemoveHabit(props.habit.id, props.habit.createdAt)}
-      >
-        x
-      </button>
-      <button onClick={handleShowModal}>Edit</button>
+      <p className='habit-info'>
+        Habit started {moment(props.habit.createdAt).fromNow()}
+      </p>
+      <button onClick={handleShowDeleteModal}>x</button>
+      <button onClick={handleShowEditModal}>Edit</button>
       <ItemModal
-        showModal={showModal}
+        showModal={showEditModal}
         closeModal={closeModal}
         task={props.habit}
+      />
+      <DeleteModal
+        showModal={showDeleteModal}
+        closeModal={closeModal}
+        habit={props.habit}
       />
     </div>
   );

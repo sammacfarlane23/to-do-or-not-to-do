@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from 'react';
-import ItemModal from './ItemModal';
 import { GlobalContext } from '../context/GlobalState';
 
 export default (props) => {
@@ -12,25 +11,7 @@ export default (props) => {
     isCompleteToday,
   } = useContext(GlobalContext);
 
-  let defaultHabitCompletedToday;
-  if (props.habit) {
-    if (props.habit.includes(dateRef)) {
-      defaultHabitCompletedToday = true;
-    } else {
-      defaultHabitCompletedToday = false;
-    }
-  } else {
-    defaultHabitCompletedToday = props.completed;
-  }
-
-  const [showModal, setShowModal] = useState(false);
-  const [habitCompletedToday, setHabitCompletedToday] = useState(
-    defaultHabitCompletedToday
-  );
-
-  const handleShowModal = () => setShowModal(true);
-
-  const closeModal = () => setShowModal(false);
+  const [habitCompletedToday, setHabitCompletedToday] = useState();
 
   const completeTask = () => {
     if (!props.task.habit) {
@@ -38,13 +19,14 @@ export default (props) => {
       startEditTask(props.task.id, updates, dateRef);
     } else {
       habitCompletedToday
-        ? startUndoCompleteHabit(props.task.id, dateRef)
-        : startCompleteHabit(props.task.id, dateRef);
+        ? startUndoCompleteHabit(props.task.id, props.task.createdAt, dateRef)
+        : startCompleteHabit(props.task.id, props.task.createdAt, dateRef);
     }
   };
 
   useEffect(() => {
-    setHabitCompletedToday(isCompleteToday(props.task, dateRef));
+    const completeToday = isCompleteToday(props.task, dateRef);
+    setHabitCompletedToday(completeToday);
   });
 
   return (
@@ -66,14 +48,12 @@ export default (props) => {
             <span className='checkmark'></span>
           </label>
         )}
-        <button onClick={handleShowModal} className='item-name'>
-          <h1 className='task-name'>{props.task.name}</h1>
-          {props.task.habit ? (
-            <p className='task-type'>Habit</p>
-          ) : (
-            <p className='task-type'>Task</p>
-          )}
-        </button>
+        <h1 className='task-name'>{props.task.name}</h1>
+        {props.task.habit ? (
+          <p className='task-type'>Habit</p>
+        ) : (
+          <p className='task-type'>Task</p>
+        )}
       </div>
       <button
         onClick={() => startRemoveTask({ id: props.task.id }, dateRef)}
@@ -81,11 +61,6 @@ export default (props) => {
       >
         Remove
       </button>
-      <ItemModal
-        showModal={showModal}
-        closeModal={closeModal}
-        task={props.task}
-      />
     </div>
   );
 };

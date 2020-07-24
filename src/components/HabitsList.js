@@ -4,7 +4,7 @@ import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
   const { startSetHabits, habits } = useContext(GlobalContext);
-  useEffect(() => startSetHabits(), []);
+  useEffect(() => startSetHabits(), [habits]);
 
   return (
     <div className='habits-list'>

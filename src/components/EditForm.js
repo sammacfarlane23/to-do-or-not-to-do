@@ -6,6 +6,8 @@ export default ({ task, closeModal }) => {
   const [name, setName] = useState(task.name);
   const [habit] = useState(task.habit);
   const [createdAt] = useState(task.createdAt);
+  const [deleteMode, setDeleteMode] = useState(false);
+
   const {
     startEditTask,
     startEditHabit,
@@ -40,17 +42,24 @@ export default ({ task, closeModal }) => {
         onChange={onTaskNameChange}
       />
       <p>Habit since: {moment(createdAt).format('Do MMM')}</p>
-      <button
-        type='button'
-        onClick={() => {
-          task.habit
-            ? startRemoveHabit(task.id, task.createdAt)
-            : startRemoveTask({ id: task.id });
-        }}
-      >
+      <button>Done</button>
+      {/*<button type='button' onClick={() => setDeleteMode(true)}>
         Remove
       </button>
-      <button>Done</button>
+      {deleteMode && (
+        <div>
+          <p>Are you sure you want to delete this?</p>
+          <button
+            onClick={() => {
+              // id is not defined at this point for some reason
+              startRemoveHabit(task.id, task.createdAt);
+            }}
+          >
+            Yes
+          </button>
+          <button onClick={() => setDeleteMode(false)}>Cancel</button>
+        </div>
+          )}*/}
     </form>
   );
 };
