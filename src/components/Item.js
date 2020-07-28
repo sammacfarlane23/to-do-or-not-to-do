@@ -18,27 +18,22 @@ export default (props) => {
       const updates = { completed: !props.task.completed };
       startEditTask(props.task.id, updates, dateRef);
     } else {
-      habitCompletedToday
+      isCompleteToday(props.task, dateRef)
         ? startUndoCompleteHabit(props.task.id, props.task.createdAt, dateRef)
         : startCompleteHabit(props.task.id, props.task.createdAt, dateRef);
     }
   };
 
-  useEffect(() => {
-    const completeToday = isCompleteToday(props.task, dateRef);
-    setHabitCompletedToday(completeToday);
-  });
-
   return (
     <div className='item'>
       <div className='checkbox-name'>
-        {!habitCompletedToday && (
+        {!isCompleteToday(props.task, dateRef) && (
           <label className='checkbox-container'>
             <input type='checkbox' onChange={() => completeTask()} />
             <span className='checkmark'></span>
           </label>
         )}
-        {habitCompletedToday && (
+        {isCompleteToday(props.task, dateRef) && (
           <label className='checkbox-container'>
             <input
               type='checkbox'
@@ -56,7 +51,12 @@ export default (props) => {
         )}
       </div>
       <button
-        onClick={() => startRemoveTask({ id: props.task.id }, dateRef)}
+        onClick={() =>
+          startRemoveTask(
+            { id: props.task.id, createdAt: props.task.createdAt },
+            dateRef
+          )
+        }
         className='button button--remove'
       >
         Remove

@@ -8,13 +8,7 @@ export default ({ task, closeModal }) => {
   const [createdAt] = useState(task.createdAt);
   const [deleteMode, setDeleteMode] = useState(false);
 
-  const {
-    startEditTask,
-    startEditHabit,
-    startRemoveTask,
-    startRemoveHabit,
-    dateRef,
-  } = useContext(GlobalContext);
+  const { startEditTask, startEditHabit, dateRef } = useContext(GlobalContext);
 
   const updates = { name, habit, createdAt };
 

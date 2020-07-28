@@ -37,6 +37,7 @@ export const GlobalProvider = ({ children }) => {
       completed,
     };
 
+    // If it is a habit its id will have been passed in to use again here
     if (id) {
       database
         .ref(`${user.uid}/tasks/${dateRef}`)
@@ -98,7 +99,6 @@ export const GlobalProvider = ({ children }) => {
       habit,
     };
 
-    // This may not still work
     const key = database.ref(user.uid).push().key;
 
     database
@@ -129,47 +129,22 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  // Can use this function to only delete a habit from today's list by not passing in the habit property
-  const startRemoveTask = ({ id, habit } = {}, dateRef) => {
-    if (habit) {
-      database
-        .ref(`${user.uid}/habits/${id}`)
-        .remove()
-        .then(() => removeTask(id));
-    } else {
-      const completedArray = [];
-      database
-        .ref(`${user.uid}/habits/${id}/completed`)
-        .once('value')
-        .then((snapshot) => {
-          snapshot.forEach((childSnapshot) => {
-            if (childSnapshot.val() !== dateRef) {
-              completedArray.push(childSnapshot.val());
-            }
-          });
-        })
-        .then(() => {
-          database
-            .ref(`${user.uid}/habits/${id}/completed`)
-            .set(completedArray);
-        })
-        .then(() => database.ref(`${user.uid}/tasks/${dateRef}/${id}`).remove())
-        .then(() => removeTask(id));
-    }
-  };
-
-  const removeAllTasks = () => {
-    taskDispatch({
-      type: 'REMOVE_ALL_TASKS',
-    });
+  const startRemoveTask = ({ id, createdAt } = {}, dateRef) => {
+    // If it's a habit undo its completion today since it is getting removed
+    startUndoCompleteHabit(id, createdAt, dateRef, true);
+    database
+      .ref(`${user.uid}/tasks/${dateRef}/${id}`)
+      .remove()
+      .then(() => {
+        removeTask(id);
+      });
   };
 
   const startRemoveAllTasks = (tasks, dateRef) => {
+    // For each task on today's todo list run the startRemoveTask function from above
     tasks.forEach((task) => {
-      // By running this function and not passing in the habit property it only deletes today's instance
-      startRemoveTask({ id: task.id }, dateRef);
+      startRemoveTask({ id: task.id, createdAt: task.createdAt }, dateRef);
     });
-    removeAllTasks();
   };
 
   const removeHabit = (id) => {
@@ -191,24 +166,24 @@ export const GlobalProvider = ({ children }) => {
     // Next remove all instances of this habit on to-do lists
     let dateIndex = moment().valueOf();
     while (dateIndex > createdAt) {
-      let hasTask = false;
       const date = moment(dateIndex).format('DD-MM-YY');
-      var ref = database.ref(`${user.uid}/tasks/${date}`);
-      ref
+      // Go through each day since createdAt and check if todo list contains habit
+      database
+        .ref(`${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
-          hasTask = snapshot.hasChild(`${id}`);
+          return snapshot.hasChild(`${id}`);
         })
-        .then(() => {
+        // If a todo list contains the habit remove it
+        .then((hasTask) => {
           if (hasTask) {
-            database
-              .ref(`${user.uid}/tasks/${date}/${id}`)
-              .remove()
-              .then(() => {
-                if (taskState.dateRef === date) {
-                  removeTask(id);
-                }
-              });
+            database.ref(`${user.uid}/tasks/${date}/${id}`).remove();
+          }
+        })
+        // If habit is on today's todo list remove it
+        .then(() => {
+          if (taskState.dateRef === date) {
+            removeTask(id);
           }
         });
       dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
@@ -227,7 +202,9 @@ export const GlobalProvider = ({ children }) => {
     database
       .ref(`${user.uid}/tasks/${dateRef}/${id}`)
       .update(updates)
-      .then(() => editTask(id, updates));
+      .then(() => {
+        editTask(id, updates);
+      });
   };
 
   const editHabit = (id, updates) => {
@@ -242,26 +219,30 @@ export const GlobalProvider = ({ children }) => {
     database
       .ref(`${user.uid}/habits/${id}`)
       .update(updates)
-      .then(() => editHabit(id, updates));
+      .then(() => {
+        editHabit(id, updates);
+      });
 
     // Check if a day has the task and if it does, edit it
     // Should probably abstract this into a function as it's used more than once
     let dateIndex = moment().valueOf();
     while (dateIndex > createdAt) {
-      let hasTask = false;
       const date = moment(dateIndex).format('DD-MM-YY');
-      var ref = database.ref(`${user.uid}/tasks/${date}`);
-      ref
+      database
+        .ref(`${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
-          hasTask = snapshot.hasChild(`${id}`);
+          return snapshot.hasChild(`${id}`);
         })
-        .then(() => {
+        .then((hasTask) => {
           if (hasTask) {
-            database
-              .ref(`${user.uid}/tasks/${date}/${id}`)
-              .update(updates)
-              .then(() => editHabit(id, updates));
+            database.ref(`${user.uid}/tasks/${date}/${id}`).update(updates);
+          }
+          return hasTask;
+        })
+        .then((hasTask) => {
+          if (hasTask) {
+            editHabit(id, updates);
           }
         });
       dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
@@ -270,6 +251,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startCompleteHabit = (id, createdAt, dateRef) => {
     const completedArray = [];
+    // Get each date in the completedArray
     database
       .ref(`${user.uid}/habits/${id}/completed`)
       .once('value')
@@ -283,32 +265,16 @@ export const GlobalProvider = ({ children }) => {
         database
           .ref(`${user.uid}/tasks/${dateRef}/${id}/completed`)
           .set(completedArray);
+      })
+      .then(() => {
         database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
       });
 
     // Update completed array for all instances of habit
-    let dateIndex = moment().valueOf();
-    while (dateIndex > createdAt) {
-      let hasTask = false;
-      const date = moment(dateIndex).format('DD-MM-YY');
-      var ref = database.ref(`${user.uid}/tasks/${date}`);
-      ref
-        .once('value')
-        .then((snapshot) => {
-          hasTask = snapshot.hasChild(`${id}`);
-        })
-        .then(() => {
-          if (hasTask) {
-            database
-              .ref(`${user.uid}/tasks/${date}/${id}/completed`)
-              .set(completedArray);
-          }
-        });
-      dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
-    }
+    updateCompletedArray(completedArray, id, createdAt);
   };
 
-  const startUndoCompleteHabit = (id, createdAt, dateRef) => {
+  const startUndoCompleteHabit = (id, createdAt, dateRef, removing) => {
     const completedArray = [];
     database
       .ref(`${user.uid}/habits/${id}/completed`)
@@ -321,24 +287,32 @@ export const GlobalProvider = ({ children }) => {
         });
       })
       .then(() => {
-        database
-          .ref(`${user.uid}/tasks/${dateRef}/${id}/completed`)
-          .set(completedArray);
+        // If this is a removal of the task from today's list don't updates today's completed array
+        if (!removing) {
+          database
+            .ref(`${user.uid}/tasks/${dateRef}/${id}/completed`)
+            .set(completedArray);
+        }
+      })
+      .then(() => {
         database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
       });
 
     // Update completed array for all instances of habit
+    updateCompletedArray(completedArray, id, createdAt);
+  };
+
+  const updateCompletedArray = (completedArray, id, createdAt) => {
     let dateIndex = moment().valueOf();
     while (dateIndex > createdAt) {
-      let hasTask = false;
       const date = moment(dateIndex).format('DD-MM-YY');
-      var ref = database.ref(`${user.uid}/tasks/${date}`);
-      ref
+      database
+        .ref(`${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
-          hasTask = snapshot.hasChild(`${id}`);
+          return snapshot.hasChild(`${id}`);
         })
-        .then(() => {
+        .then((hasTask) => {
           if (hasTask) {
             database
               .ref(`${user.uid}/tasks/${date}/${id}/completed`)
@@ -381,7 +355,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startSetHabits = () => {
     database
-      .ref(`${user.uid}/habits/`)
+      .ref(`${user.uid}/habits`)
       .once('value')
       .then((snapshot) => {
         const habits = [];
@@ -396,12 +370,11 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const addHabitToTodoList = (id) => {
-    let habit;
     database
       .ref(`${user.uid}/habits/${id}`)
       .once('value')
       .then((snapshot) => {
-        habit = snapshot.val();
+        const habit = snapshot.val();
         startAddItemToToDo(habit, taskState.dateRef, id);
       });
   };
@@ -416,10 +389,13 @@ export const GlobalProvider = ({ children }) => {
   const calculateCurrentStreak = (completed, createdAt) => {
     let streak = 0;
     let dateIndex = moment().valueOf();
+    // If habit has been completed
     if (completed) {
+      // If one of those days completed is today, increment streak
       if (completed.includes(moment().format('DD-MM-YY'))) {
         streak++;
       }
+      // Check rest of days all the way to habit creation
       while (dateIndex > createdAt) {
         dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
         if (completed.includes(moment(dateIndex).format('DD-MM-YY'))) {
@@ -473,19 +449,17 @@ export const GlobalProvider = ({ children }) => {
 
   // Check if a given habit or task has been completed today
   const isCompleteToday = (task, dateRef) => {
-    let completedToday;
+    let completedToday = false;
     if (task.completed) {
       if (task.habit) {
         task.completed.forEach((date) => {
           if (date === dateRef) {
             completedToday = true;
-          } else completedToday = false;
+          }
         });
       } else {
         completedToday = task.completed;
       }
-    } else {
-      completedToday = false;
     }
     return completedToday;
   };
