@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Item from './Item';
+import LoadingPage from './LoadingPage';
 import DateEdit from '../components/DateEdit';
 import ExistingHabitsList from './ExistingHabitsList';
 import { GlobalContext } from '../context/GlobalState';

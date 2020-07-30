@@ -9,6 +9,7 @@ const initialTaskState = {
   dateRef: moment().format('DD-MM-YY'),
   tasks: [],
   habits: [],
+  loaded: false,
 };
 
 export const GlobalContext = createContext(initialTaskState);
