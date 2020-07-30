@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Item from './Item';
 import LoadingPage from './LoadingPage';
 import DateEdit from '../components/DateEdit';
@@ -14,11 +14,14 @@ export default () => {
     sortTasks,
   } = useContext(GlobalContext);
 
+  const [renderList, setRenderList] = useState(false);
+
   useEffect(() => {
     startSetTasks(dateRef);
+    setRenderList(true);
   }, [tasks]);
 
-  return (
+  return renderList ? (
     <div className='task-list'>
       <ExistingHabitsList />
       <div className='date-title'>
@@ -37,5 +40,7 @@ export default () => {
         )}
       </div>
     </div>
+  ) : (
+    <LoadingPage />
   );
 };
