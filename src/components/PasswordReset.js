@@ -7,15 +7,16 @@ const PasswordReset = () => {
   const [emailHasBeenSent, setEmailHasBeenSent] = useState(false);
   const [error, setError] = useState(null);
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
+  const onChangeHandler = (e) => {
+    const { name, value } = e.currentTarget;
+
     if (name === 'userEmail') {
       setEmail(value);
     }
   };
 
-  const sendResetEmail = (event) => {
-    event.preventDefault();
+  const sendResetEmail = (e) => {
+    e.preventDefault();
     auth
       .sendPasswordResetEmail(email)
       .then(() => {
@@ -50,7 +51,7 @@ const PasswordReset = () => {
             onChange={onChangeHandler}
             className=''
           />
-          <button onClick={(event) => sendResetEmail(event)} className=''>
+          <button onClick={(e) => sendResetEmail(e)} className=''>
             Send me a reset link
           </button>
         </form>

@@ -7,16 +7,16 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const signInWithEmailAndPasswordHandler = (event, email, password) => {
-    event.preventDefault();
+  const signInWithEmailAndPasswordHandler = (e, email, password) => {
+    e.preventDefault();
     auth.signInWithEmailAndPassword(email, password).catch((error) => {
       setError('Error signing in with password and email!');
       console.error('Error signing in with password and email', error);
     });
   };
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
+  const onChangeHandler = (e) => {
+    const { name, value } = e.currentTarget;
 
     if (name === 'userEmail') {
       setEmail(value);
@@ -39,9 +39,9 @@ const SignIn = () => {
             className=''
             name='userEmail'
             value={email}
-            placeholder='E.g: samuel@gmail.com'
+            placeholder='Your email'
             id='userEmail'
-            onChange={(event) => onChangeHandler(event)}
+            onChange={(e) => onChangeHandler(e)}
           />
           <label htmlFor='userPassword' className=''>
             Password:
@@ -53,12 +53,12 @@ const SignIn = () => {
             value={password}
             placeholder='Your Password'
             id='userPassword'
-            onChange={(event) => onChangeHandler(event)}
+            onChange={(e) => onChangeHandler(e)}
           />
           <button
             className=''
-            onClick={(event) => {
-              signInWithEmailAndPasswordHandler(event, email, password);
+            onClick={(e) => {
+              signInWithEmailAndPasswordHandler(e, email, password);
             }}
           >
             Sign in

@@ -43,7 +43,7 @@ export default (props) => {
         {calculateLongestStreak(props.habit.completed, props.habit.createdAt)}
       </p>
       <p className='habit-info'>
-        Habit started {moment(props.habit.createdAt).fromNow()}
+        Habit started on {moment(props.habit.createdAt).format('D MMM YYYY')}
       </p>
       <button onClick={handleShowDeleteModal}>x</button>
       <button onClick={handleShowEditModal}>Edit</button>

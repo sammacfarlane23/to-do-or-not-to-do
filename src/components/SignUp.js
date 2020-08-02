@@ -7,12 +7,8 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  const createUserWithEmailAndPasswordHandler = async (
-    event,
-    email,
-    password
-  ) => {
-    event.preventDefault();
+  const createUserWithEmailAndPasswordHandler = async (e, email, password) => {
+    e.preventDefault();
     try {
       await auth.createUserWithEmailAndPassword(email, password);
     } catch (error) {
@@ -23,8 +19,9 @@ const SignUp = () => {
     setPassword('');
   };
 
-  const onChangeHandler = (event) => {
-    const { name, value } = event.currentTarget;
+  const onChangeHandler = (e) => {
+    const { name, value } = e.currentTarget;
+
     if (name === 'userEmail') {
       setEmail(value);
     } else if (name === 'userPassword') {
@@ -46,9 +43,9 @@ const SignUp = () => {
             className=''
             name='userEmail'
             value={email}
-            placeholder='E.g: samuel@gmail.com'
+            placeholder='Your email'
             id='userEmail'
-            onChange={(event) => onChangeHandler(event)}
+            onChange={(e) => onChangeHandler(e)}
           />
           <label htmlFor='userPassword' className=''>
             Password:
@@ -60,12 +57,12 @@ const SignUp = () => {
             value={password}
             placeholder='Your Password'
             id='userPassword'
-            onChange={(event) => onChangeHandler(event)}
+            onChange={(e) => onChangeHandler(e)}
           />
           <button
             className=''
-            onClick={(event) => {
-              createUserWithEmailAndPasswordHandler(event, email, password);
+            onClick={(e) => {
+              createUserWithEmailAndPasswordHandler(e, email, password);
             }}
           >
             Sign up
