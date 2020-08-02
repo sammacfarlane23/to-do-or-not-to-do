@@ -17,7 +17,6 @@ export default () => {
   const [nameForMessage, setNameForMessage] = useState('');
   const [habit, setHabit] = useState(true);
   const [taskCompleted] = useState(false);
-  const [showMessage, setShowMessage] = useState(false);
 
   const addNewTask = (e) => {
     e.preventDefault();

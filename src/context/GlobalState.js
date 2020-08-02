@@ -37,24 +37,31 @@ export const GlobalProvider = ({ children }) => {
       habit,
       completed,
     };
+    const habitObject = {
+      name,
+      createdAt,
+      habit,
+    };
 
     // If it is a habit its id will have been passed in to use again here
     if (id) {
       database
         .ref(`users/${user.uid}/tasks/${dateRef}`)
         .child(`${id}`)
-        .set(task)
+        .set(habitObject)
         .then(() => {
           addTask({
-            ...task,
+            id,
+            ...habitObject,
           });
         });
     } else {
       database
         .ref(`users/${user.uid}/tasks/${dateRef}`)
         .push(task)
-        .then(() => {
+        .then((ref) => {
           addTask({
+            id: ref.key,
             ...task,
           });
         });
@@ -69,24 +76,19 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const startAddHabit = (habitData = {}) => {
-    const {
-      name = '',
-      createdAt = 0,
-      habit = true,
-      completed = false,
-    } = habitData;
+    const { name = '', createdAt = 0, habit = true } = habitData;
     const newHabit = {
       name,
       createdAt,
       habit,
-      completed,
     };
 
     database
       .ref(`users/${user.uid}/habits`)
       .push(newHabit)
-      .then(() => {
+      .then((ref) => {
         addHabit({
+          id: ref.key,
           ...newHabit,
         });
       });
@@ -108,6 +110,7 @@ export const GlobalProvider = ({ children }) => {
       .set(newHabit)
       .then(() => {
         addTask({
+          id: key,
           ...newHabit,
         });
       });
@@ -118,6 +121,7 @@ export const GlobalProvider = ({ children }) => {
       .set(newHabit)
       .then(() => {
         addHabit({
+          id: key,
           ...newHabit,
         });
       });

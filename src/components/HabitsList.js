@@ -10,13 +10,19 @@ export default () => {
   useEffect(() => {
     startSetHabits();
     setRenderList(true);
-  }, [habits]);
+  }, []);
 
   return renderList ? (
     <div className='habits-list'>
-      {habits.map((habit) => (
-        <Habit key={habit.id} habit={habit} />
-      ))}
+      {habits.map((habit) => {
+        // The message is triggered when a new habit or task is added
+        // When added, id also prints as undefined
+        // When first added new habit does not have an id,
+        // upon refresh it has one
+        // Habit being printed here does not match habit in database
+        // Fixed by adding to an id to the state version of habit
+        return <Habit key={habit.id} habit={habit} />;
+      })}
     </div>
   ) : (
     <LoadingPage />

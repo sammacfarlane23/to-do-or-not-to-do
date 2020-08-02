@@ -1,17 +1,14 @@
 import React, { useContext, useState } from 'react';
-import moment from 'moment';
 import { GlobalContext } from '../context/GlobalState';
 import HabitsList from './HabitsList';
 
 export default () => {
   const { startAddHabit, date } = useContext(GlobalContext);
   const [name, setName] = useState('');
-  const [completed, setCompleted] = useState([]);
 
   const addNewHabit = (e) => {
     e.preventDefault();
-    startAddHabit({ name, createdAt: date, completed, habit: true });
-    setCompleted([]);
+    startAddHabit({ name, createdAt: date, habit: true });
     setName('');
   };
 

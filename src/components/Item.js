@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { GlobalContext } from '../context/GlobalState';
 
 export default (props) => {
@@ -10,8 +10,6 @@ export default (props) => {
     dateRef,
     isCompleteToday,
   } = useContext(GlobalContext);
-
-  const [habitCompletedToday, setHabitCompletedToday] = useState();
 
   const completeTask = () => {
     if (!props.task.habit) {

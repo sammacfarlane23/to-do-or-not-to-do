@@ -19,7 +19,7 @@ export default () => {
   useEffect(() => {
     startSetTasks(dateRef);
     setRenderList(true);
-  }, [tasks]);
+  }, []);
 
   return renderList ? (
     <div className='task-list'>
@@ -36,7 +36,9 @@ export default () => {
             .sort(sortTasks)
             .map((task) => <Item key={task.id} task={task} />)
         ) : (
-          <p>No tasks</p>
+          <div>
+            <span>No tasks</span>
+          </div>
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useHistory } from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Router } from '@reach/router';
 import { UserContext } from '../context/UserProvider';
