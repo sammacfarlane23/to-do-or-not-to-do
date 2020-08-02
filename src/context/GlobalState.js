@@ -41,7 +41,7 @@ export const GlobalProvider = ({ children }) => {
     // If it is a habit its id will have been passed in to use again here
     if (id) {
       database
-        .ref(`${user.uid}/tasks/${dateRef}`)
+        .ref(`users/${user.uid}/tasks/${dateRef}`)
         .child(`${id}`)
         .set(task)
         .then(() => {
@@ -51,7 +51,7 @@ export const GlobalProvider = ({ children }) => {
         });
     } else {
       database
-        .ref(`${user.uid}/tasks/${dateRef}`)
+        .ref(`users/${user.uid}/tasks/${dateRef}`)
         .push(task)
         .then(() => {
           addTask({
@@ -83,7 +83,7 @@ export const GlobalProvider = ({ children }) => {
     };
 
     database
-      .ref(`${user.uid}/habits`)
+      .ref(`users/${user.uid}/habits`)
       .push(newHabit)
       .then(() => {
         addHabit({
@@ -103,7 +103,7 @@ export const GlobalProvider = ({ children }) => {
     const key = database.ref(user.uid).push().key;
 
     database
-      .ref(`${user.uid}/tasks/${dateRef}`)
+      .ref(`users/${user.uid}/tasks/${dateRef}`)
       .child(`${key}`)
       .set(newHabit)
       .then(() => {
@@ -113,7 +113,7 @@ export const GlobalProvider = ({ children }) => {
       });
 
     database
-      .ref(`${user.uid}/habits`)
+      .ref(`users/${user.uid}/habits`)
       .child(`${key}`)
       .set(newHabit)
       .then(() => {
@@ -134,7 +134,7 @@ export const GlobalProvider = ({ children }) => {
     // If it's a habit undo its completion today since it is getting removed
     startUndoCompleteHabit(id, createdAt, dateRef, true);
     database
-      .ref(`${user.uid}/tasks/${dateRef}/${id}`)
+      .ref(`users/${user.uid}/tasks/${dateRef}/${id}`)
       .remove()
       .then(() => {
         removeTask(id);
@@ -158,7 +158,7 @@ export const GlobalProvider = ({ children }) => {
   const startRemoveHabit = (id, createdAt) => {
     // Remove from habits section of database first
     database
-      .ref(`${user.uid}/habits/${id}`)
+      .ref(`users/${user.uid}/habits/${id}`)
       .remove()
       .then(() => {
         removeHabit(id);
@@ -170,7 +170,7 @@ export const GlobalProvider = ({ children }) => {
       const date = moment(dateIndex).format('DD-MM-YY');
       // Go through each day since createdAt and check if todo list contains habit
       database
-        .ref(`${user.uid}/tasks/${date}`)
+        .ref(`users/${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
           return snapshot.hasChild(`${id}`);
@@ -178,7 +178,7 @@ export const GlobalProvider = ({ children }) => {
         // If a todo list contains the habit remove it
         .then((hasTask) => {
           if (hasTask) {
-            database.ref(`${user.uid}/tasks/${date}/${id}`).remove();
+            database.ref(`users/${user.uid}/tasks/${date}/${id}`).remove();
           }
         })
         // If habit is on today's todo list remove it
@@ -201,7 +201,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startEditTask = (id, updates, dateRef) => {
     database
-      .ref(`${user.uid}/tasks/${dateRef}/${id}`)
+      .ref(`users/${user.uid}/tasks/${dateRef}/${id}`)
       .update(updates)
       .then(() => {
         editTask(id, updates);
@@ -218,7 +218,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startEditHabit = (id, updates, createdAt) => {
     database
-      .ref(`${user.uid}/habits/${id}`)
+      .ref(`users/${user.uid}/habits/${id}`)
       .update(updates)
       .then(() => {
         editHabit(id, updates);
@@ -230,14 +230,16 @@ export const GlobalProvider = ({ children }) => {
     while (dateIndex > createdAt) {
       const date = moment(dateIndex).format('DD-MM-YY');
       database
-        .ref(`${user.uid}/tasks/${date}`)
+        .ref(`users/${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
           return snapshot.hasChild(`${id}`);
         })
         .then((hasTask) => {
           if (hasTask) {
-            database.ref(`${user.uid}/tasks/${date}/${id}`).update(updates);
+            database
+              .ref(`users/${user.uid}/tasks/${date}/${id}`)
+              .update(updates);
           }
           return hasTask;
         })
@@ -254,7 +256,7 @@ export const GlobalProvider = ({ children }) => {
     const completedArray = [];
     // Get each date in the completedArray
     database
-      .ref(`${user.uid}/habits/${id}/completed`)
+      .ref(`users/${user.uid}/habits/${id}/completed`)
       .once('value')
       .then((snapshot) => {
         snapshot.forEach((childSnapshot) => {
@@ -264,11 +266,13 @@ export const GlobalProvider = ({ children }) => {
       })
       .then(() => {
         database
-          .ref(`${user.uid}/tasks/${dateRef}/${id}/completed`)
+          .ref(`users/${user.uid}/tasks/${dateRef}/${id}/completed`)
           .set(completedArray);
       })
       .then(() => {
-        database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
+        database
+          .ref(`users/${user.uid}/habits/${id}/completed`)
+          .set(completedArray);
       });
 
     // Update completed array for all instances of habit
@@ -278,7 +282,7 @@ export const GlobalProvider = ({ children }) => {
   const startUndoCompleteHabit = (id, createdAt, dateRef, removing) => {
     const completedArray = [];
     database
-      .ref(`${user.uid}/habits/${id}/completed`)
+      .ref(`users/${user.uid}/habits/${id}/completed`)
       .once('value')
       .then((snapshot) => {
         snapshot.forEach((childSnapshot) => {
@@ -291,12 +295,14 @@ export const GlobalProvider = ({ children }) => {
         // If this is a removal of the task from today's list don't updates today's completed array
         if (!removing) {
           database
-            .ref(`${user.uid}/tasks/${dateRef}/${id}/completed`)
+            .ref(`users/${user.uid}/tasks/${dateRef}/${id}/completed`)
             .set(completedArray);
         }
       })
       .then(() => {
-        database.ref(`${user.uid}/habits/${id}/completed`).set(completedArray);
+        database
+          .ref(`users/${user.uid}/habits/${id}/completed`)
+          .set(completedArray);
       });
 
     // Update completed array for all instances of habit
@@ -308,7 +314,7 @@ export const GlobalProvider = ({ children }) => {
     while (dateIndex > createdAt) {
       const date = moment(dateIndex).format('DD-MM-YY');
       database
-        .ref(`${user.uid}/tasks/${date}`)
+        .ref(`users/${user.uid}/tasks/${date}`)
         .once('value')
         .then((snapshot) => {
           return snapshot.hasChild(`${id}`);
@@ -316,7 +322,7 @@ export const GlobalProvider = ({ children }) => {
         .then((hasTask) => {
           if (hasTask) {
             database
-              .ref(`${user.uid}/tasks/${date}/${id}/completed`)
+              .ref(`users/${user.uid}/tasks/${date}/${id}/completed`)
               .set(completedArray);
           }
         });
@@ -333,7 +339,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startSetTasks = (dateRef) => {
     database
-      .ref(`${user.uid}/tasks/${dateRef}`)
+      .ref(`users/${user.uid}/tasks/${dateRef}`)
       .once('value')
       .then((snapshot) => {
         const tasks = [];
@@ -356,7 +362,7 @@ export const GlobalProvider = ({ children }) => {
 
   const startSetHabits = () => {
     database
-      .ref(`${user.uid}/habits`)
+      .ref(`users/${user.uid}/habits`)
       .once('value')
       .then((snapshot) => {
         const habits = [];
@@ -372,7 +378,7 @@ export const GlobalProvider = ({ children }) => {
 
   const addHabitToTodoList = (id) => {
     database
-      .ref(`${user.uid}/habits/${id}`)
+      .ref(`users/${user.uid}/habits/${id}`)
       .once('value')
       .then((snapshot) => {
         const habit = snapshot.val();
