@@ -24,7 +24,7 @@ export default () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button>Add Item</button>
+          <button className='form-add-button'>Add Item</button>
         </div>
       </form>
     </div>

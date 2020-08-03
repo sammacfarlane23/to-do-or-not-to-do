@@ -19,7 +19,7 @@ export default () => {
   useEffect(() => {
     startSetTasks(dateRef);
     setRenderList(true);
-  }, []);
+  }, [dateRef]);
 
   return renderList ? (
     <div className='task-list'>
@@ -27,12 +27,14 @@ export default () => {
         <DateEdit className='date' />
       </div>
       <ExistingHabitsList />
-      <button
-        onClick={() => startRemoveAllTasks(tasks, dateRef)}
-        className='button'
-      >
-        Remove All
-      </button>
+      {tasks.length > 0 && (
+        <button
+          onClick={() => startRemoveAllTasks(tasks, dateRef)}
+          className='button'
+        >
+          Remove All
+        </button>
+      )}
       <div className='item-list'>
         {tasks.length > 0 ? (
           tasks

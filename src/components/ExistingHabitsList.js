@@ -12,7 +12,7 @@ export default () => {
 
   useEffect(() => {
     startSetHabits();
-  }, []);
+  }, [habits]);
 
   const addHabitToday = (id) => {
     addHabitToTodoList(id);

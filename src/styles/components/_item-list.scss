@@ -3,6 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: none;
 }
 
 .item-list {
@@ -32,9 +33,17 @@
 }
 
 .SingleDatePickerInput {
-  background-color: black;
+  background: none;
 }
 
 .SingleDatePickerInput__withBorder {
   border: none;
+}
+
+input#date.DateInput_input.DateInput_input_1 {
+  background: #262626;
+  color: #939393;
+  font-size: 1.5rem;
+  padding: 0;
+  margin: 0;
 }

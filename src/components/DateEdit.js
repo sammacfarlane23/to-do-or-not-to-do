@@ -25,7 +25,7 @@ export default () => {
         focused={focused}
         numberOfMonths={1}
         isOutsideRange={() => false}
-        displayFormat='DD/MM/YYYY'
+        displayFormat='Do MMMM YYYY'
         withPortal={true}
       />
     </div>

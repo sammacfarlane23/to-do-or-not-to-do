@@ -11,14 +11,24 @@ export default (props) => {
       contentLabel='Delete Modal'
       closeTimeoutMS={300}
       ariaHideApp={false}
+      className='modal'
     >
-      <p>Are you sure you want to delete this habit?</p>
-      <button
-        onClick={() => startRemoveHabit(props.habit.id, props.habit.createdAt)}
-      >
-        Yes
-      </button>
-      <button onClick={props.closeModal}>Cancel</button>
+      <div className='modal__body'>
+        <p>Are you sure you want to delete this habit?</p>
+        <div className='habit-buttons'>
+          <button
+            className='button button--habit'
+            onClick={() =>
+              startRemoveHabit(props.habit.id, props.habit.createdAt)
+            }
+          >
+            Yes
+          </button>
+          <button className='button button--habit' onClick={props.closeModal}>
+            Cancel
+          </button>
+        </div>
+      </div>
     </ReactModal>
   );
 };

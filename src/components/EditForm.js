@@ -27,32 +27,16 @@ export default ({ task, closeModal }) => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className='modal__body'>
       <input
         type='text'
         placeholder='Task Name'
         value={name}
         onChange={onTaskNameChange}
+        className='name-edit'
       />
-      <p>Habit since: {moment(createdAt).format('Do MMM')}</p>
-      <button>Done</button>
-      {/*<button type='button' onClick={() => setDeleteMode(true)}>
-        Remove
-      </button>
-      {deleteMode && (
-        <div>
-          <p>Are you sure you want to delete this?</p>
-          <button
-            onClick={() => {
-              // id is not defined at this point for some reason
-              startRemoveHabit(task.id, task.createdAt);
-            }}
-          >
-            Yes
-          </button>
-          <button onClick={() => setDeleteMode(false)}>Cancel</button>
-        </div>
-          )}*/}
+      <p>Habit since: {moment(createdAt).format('Do MMM YYYY')}</p>
+      <button className='button button--habit'>Done</button>
     </form>
   );
 };

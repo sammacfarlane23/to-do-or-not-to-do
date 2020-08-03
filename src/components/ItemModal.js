@@ -10,6 +10,7 @@ export default (props) => {
       contentLabel='Task Modal'
       closeTimeoutMS={300}
       ariaHideApp={false}
+      className='modal'
     >
       <EditForm task={props.task} closeModal={props.closeModal} />
     </ReactModal>

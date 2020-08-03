@@ -42,11 +42,6 @@ export default (props) => {
           </label>
         )}
         <h1 className='task-name'>{props.task.name}</h1>
-        {props.task.habit ? (
-          <p className='task-type'>Habit</p>
-        ) : (
-          <p className='task-type'>Task</p>
-        )}
       </div>
       <button
         onClick={() =>
