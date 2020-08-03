@@ -18,6 +18,8 @@ export default () => {
   const [habit, setHabit] = useState(true);
   const [taskCompleted] = useState(false);
 
+  const placeHolder = habit ? 'Add a new habit' : 'Add a new task';
+
   const addNewTask = (e) => {
     e.preventDefault();
 
@@ -65,7 +67,7 @@ export default () => {
       <form onSubmit={addNewTask} className='add-item-form'>
         <div className='text-input-button'>
           <ReactAutocomplete
-            inputProps={{ placeholder: 'Add a new task' }}
+            inputProps={{ placeholder: placeHolder }}
             className='add-item-name'
             items={habits}
             shouldItemRender={(item, name) =>
@@ -80,6 +82,7 @@ export default () => {
                 style={{
                   backgroundColor: highlighted ? '#eee' : 'transparent',
                 }}
+                className='text-dropdown'
               >
                 {item.name}
               </div>
@@ -88,7 +91,7 @@ export default () => {
             onChange={(e) => setName(e.target.value)}
             onSelect={(name) => setName(name)}
           />
-          <button className='add-button'>+</button>
+          <button className='form-add-button'>Add Item</button>
         </div>
         <div className='habit-switch'>
           {habit ? (

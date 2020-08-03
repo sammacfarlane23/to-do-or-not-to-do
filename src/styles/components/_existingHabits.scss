@@ -12,15 +12,16 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   border-radius: 5px;
   height: 5rem;
-  background-color: white;
+  background: #565656;
   border-radius: 10px;
   padding: 1rem;
   margin: 0.75rem;
-  border: 1px solid #4885ed;
-  box-shadow: 1px 1px 0px #4885ed, 2px 2px 0px #4885ed, 3px 3px 0px #4885ed,
-    4px 4px 0px #4885ed, 5px 5px 0px #4885ed, 6px 6px 0px #4885ed;
+  border: 1px solid #9de13c;
+  box-shadow: 1px 1px 0px #9de13c, 2px 2px 0px #9de13c, 3px 3px 0px #9de13c,
+    4px 4px 0px #9de13c, 5px 5px 0px #9de13c, 6px 6px 0px #9de13c;
 }
 
 .habit-streak {
@@ -33,7 +34,7 @@
 }
 
 .add-button {
-  background-color: white;
-  border-radius: 50%;
-  border-color: #4885ed;
+  background: none;
+  border: none;
+  color: #939393;
 }

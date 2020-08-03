@@ -23,11 +23,14 @@ export default () => {
 
   return renderList ? (
     <div className='task-list'>
-      <ExistingHabitsList />
       <div className='date-title'>
-        <DateEdit className='date' /> <h2>To-do List</h2>
+        <DateEdit className='date' />
       </div>
-      <button onClick={() => startRemoveAllTasks(tasks, dateRef)}>
+      <ExistingHabitsList />
+      <button
+        onClick={() => startRemoveAllTasks(tasks, dateRef)}
+        className='button'
+      >
         Remove All
       </button>
       <div className='item-list'>

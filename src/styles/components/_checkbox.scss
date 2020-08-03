@@ -28,9 +28,9 @@
   left: 0;
   height: 25px;
   width: 25px;
-  background-color: white;
+  background-color: #939393;
   border-radius: 12.5px;
-  border: solid 1px #4c8bf5;
+  border: none;
 }
 
 /* On mouse-over, add a grey background color */
@@ -38,9 +38,9 @@
   background-color: grey;
 }
 
-/* When the checkbox is checked, add a blue background */
+/* When the checkbox is checked, add a green background */
 .checkbox-container input:checked ~ .checkmark {
-  background-color: #4c8bf5;
+  background-color: #9de13c;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -56,14 +56,15 @@
 }
 
 /* Style the checkmark/indicator */
+/*
 .checkbox-container .checkmark:after {
   left: 9px;
   top: 5px;
   width: 5px;
   height: 10px;
-  border: solid white;
+  border: solid #939393;
   border-width: 0 3px 3px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-}
+}*/
