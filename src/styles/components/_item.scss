@@ -29,3 +29,11 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.item-right-side {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 1rem;
+}

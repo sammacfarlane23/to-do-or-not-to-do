@@ -3,6 +3,8 @@ import Item from './Item';
 import LoadingPage from './LoadingPage';
 import DateEdit from '../components/DateEdit';
 import ExistingHabitsList from './ExistingHabitsList';
+import ShowHabitsPlusIcon from './ShowHabitsPlusIcon';
+import MinusIcon from './MinusIcon';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
@@ -22,28 +24,34 @@ export default () => {
     setRenderList(true);
   }, [dateRef, tasks]);
 
+  const handleButtonClick = () => {
+    setShowHabits(!showHabits);
+  };
+
   return renderList ? (
     <div className='task-list'>
       <div className='date-title'>
         <DateEdit className='date' />
-        <div>
-          <button
-            className='button button--show-habits'
-            onClick={() => setShowHabits(!showHabits)}
-          >
-            {showHabits ? 'Hide' : 'Show'} habits {showHabits ? '-' : '+'}
-          </button>
+        <div className='show-hide-habits'>
+          <p>{showHabits ? 'Hide' : 'Show'} habits </p>
+          {showHabits ? (
+            <MinusIcon handleButtonClick={handleButtonClick} />
+          ) : (
+            <ShowHabitsPlusIcon handleButtonClick={handleButtonClick} />
+          )}
         </div>
       </div>
       {showHabits && <ExistingHabitsList />}
-      {tasks.length > 0 && (
-        <button
-          onClick={() => startRemoveAllTasks(tasks, dateRef)}
-          className='button'
-        >
-          Remove All
-        </button>
-      )}
+      {/*<div className='remove-all'>
+        {tasks.length > 0 && (
+          <button
+            onClick={() => startRemoveAllTasks(tasks, dateRef)}
+            className='button'
+          >
+            Remove All
+          </button>
+        )}
+        </div>*/}
       <div className='item-list'>
         {tasks.length > 0 ? (
           tasks

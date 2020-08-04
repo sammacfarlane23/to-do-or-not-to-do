@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GlobalContext } from '../context/GlobalState';
+import AddHabitsPlusIcon from './AddHabitsPlusIcon';
 
 export default () => {
   const {
@@ -34,12 +35,10 @@ export default () => {
                   {calculateCurrentStreak(habit.completed, habit.createdAt)}🔥
                 </p>
               )}
-              <button
-                className='add-button'
-                onClick={() => addHabitToday(habit.id)}
-              >
-                +
-              </button>
+              <AddHabitsPlusIcon
+                handleButtonClick={addHabitToday}
+                id={habit.id}
+              />
             </div>
           ))}
       </div>

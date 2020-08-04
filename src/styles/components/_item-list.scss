@@ -1,4 +1,5 @@
 .task-list {
+  width: 45rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -18,8 +19,10 @@
 }
 
 .date-title {
+  width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   margin-bottom: 0;
   text-align: center;
 }
@@ -46,4 +49,20 @@ input#date.DateInput_input.DateInput_input_1 {
   font-size: 1.5rem;
   padding: 0;
   margin: 0;
+  border-radius: 10%;
+}
+
+.show-hide-habits {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove-all {
+  width: 100%;
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }

@@ -44,28 +44,35 @@ export default (props) => {
         )}
         <h1 className='task-name'>{props.task.name}</h1>
       </div>
-      {!props.showHabits &&
-        props.task.habit &&
-        !(
-          calculateCurrentStreak(props.task.completed, props.task.createdAt) ===
-          0
-        ) && (
-          <p className='habit-streak'>
-            {calculateCurrentStreak(props.task.completed, props.task.createdAt)}
-            🔥
-          </p>
-        )}
-      <button
-        onClick={() =>
-          startRemoveTask(
-            { id: props.task.id, createdAt: props.task.createdAt },
-            dateRef
-          )
-        }
-        className='button button--remove'
-      >
-        Remove
-      </button>
+      <div className='item-right-side'>
+        {!props.showHabits &&
+          props.task.habit &&
+          !(
+            calculateCurrentStreak(
+              props.task.completed,
+              props.task.createdAt
+            ) === 0
+          ) && (
+            <p className='habit-streak'>
+              {calculateCurrentStreak(
+                props.task.completed,
+                props.task.createdAt
+              )}
+              🔥
+            </p>
+          )}
+        <button
+          onClick={() =>
+            startRemoveTask(
+              { id: props.task.id, createdAt: props.task.createdAt },
+              dateRef
+            )
+          }
+          className='button button--remove'
+        >
+          Remove
+        </button>
+      </div>
     </div>
   );
 };
