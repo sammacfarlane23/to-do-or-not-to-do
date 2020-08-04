@@ -11,11 +11,14 @@
 }
 
 .habit-switch {
+  margin: 1rem;
+  background: #565656;
+  border-radius: 0.6rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 0.3rem;
 }
 
 .task-type {

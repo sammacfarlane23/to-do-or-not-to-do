@@ -54,7 +54,6 @@ export default () => {
     }
     setHabit(true);
     setName('');
-    document.getElementById('checkbox').checked = true;
   };
 
   return (
@@ -91,34 +90,36 @@ export default () => {
             onChange={(e) => setName(e.target.value)}
             onSelect={(name) => setName(name)}
           />
-          <button className='form-add-button'>Add Item</button>
+          <button className='button button--add'>Add Item</button>
         </div>
-        <div className='habit-switch'>
-          {habit ? (
-            <p className='task-type'>One-off Task</p>
-          ) : (
-            <p className='task-type'>
-              <strong>One-off Task</strong>
-            </p>
-          )}
-          <label className='switch'>
-            <input
-              id='checkbox'
-              type='checkbox'
-              className='switch-button'
-              onChange={(e) => setHabit(e.target.checked)}
-              defaultChecked={true}
-            />
-            <span className='slider'></span>
-          </label>
-          {habit ? (
-            <p className='task-type'>
-              <strong>Habit</strong>
-            </p>
-          ) : (
-            <p className='task-type'>Habit</p>
-          )}
-        </div>
+
+        {habit ? (
+          <div className='habit-switch'>
+            <button className='button button--selected' type='button'>
+              Daily Habit
+            </button>
+            <button
+              className='button button--switch'
+              type='button'
+              onClick={() => setHabit(!habit)}
+            >
+              One-off Task
+            </button>
+          </div>
+        ) : (
+          <div className='habit-switch'>
+            <button
+              className='button button--switch'
+              type='button'
+              onClick={() => setHabit(!habit)}
+            >
+              Daily Habit
+            </button>
+            <button className='button button--selected' type='button'>
+              One-off Task
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

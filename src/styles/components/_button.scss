@@ -15,6 +15,20 @@
   }
 }
 
+.button--add {
+  background: #565656;
+  &:hover {
+    background: #565656;
+    color: #eeeeee;
+  }
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 5%;
+  color: #939393;
+  padding: 0.5rem;
+  margin: 0 1rem;
+}
+
 .button--remove {
   background: none;
 }
@@ -32,4 +46,18 @@
   padding: 0;
   width: auto;
   margin: 0 0.5rem;
+}
+
+.button--selected {
+  background: #9de13c;
+  color: #262626;
+  font-weight: 700;
+}
+
+.button--switch {
+  &:hover {
+    background: none;
+    color: #eeeeee;
+    font-weight: 700;
+  }
 }
