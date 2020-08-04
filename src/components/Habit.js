@@ -29,14 +29,27 @@ export default (props) => {
         {props.habit.completed !== undefined ? props.habit.completed.length : 0}{' '}
         total completions
       </p>
-      <p className='habit-info'>
-        Current Streak:{' '}
-        {calculateCurrentStreak(props.habit.completed, props.habit.createdAt)}
-      </p>
-      <p className='habit-info'>
-        Longest Streak:{' '}
-        {calculateLongestStreak(props.habit.completed, props.habit.createdAt)}
-      </p>
+      {calculateLongestStreak(props.habit.completed, props.habit.createdAt) !==
+        0 && (
+        <div>
+          <p className='habit-info'>
+            Current:{' '}
+            {calculateCurrentStreak(
+              props.habit.completed,
+              props.habit.createdAt
+            )}
+            🔥
+          </p>
+          <p className='habit-info'>
+            Longest:{' '}
+            {calculateLongestStreak(
+              props.habit.completed,
+              props.habit.createdAt
+            )}
+            🔥
+          </p>
+        </div>
+      )}
       <p className='habit-info'>
         Habit started on {moment(props.habit.createdAt).format('D MMM YYYY')}
       </p>

@@ -15,18 +15,27 @@ export default () => {
   } = useContext(GlobalContext);
 
   const [renderList, setRenderList] = useState(false);
+  const [showHabits, setShowHabits] = useState(false);
 
   useEffect(() => {
     startSetTasks(dateRef);
     setRenderList(true);
-  }, [dateRef]);
+  }, [dateRef, tasks]);
 
   return renderList ? (
     <div className='task-list'>
       <div className='date-title'>
         <DateEdit className='date' />
+        <div>
+          <button
+            className='button button--show-habits'
+            onClick={() => setShowHabits(!showHabits)}
+          >
+            {showHabits ? 'Hide' : 'Show'} habits {showHabits ? '-' : '+'}
+          </button>
+        </div>
       </div>
-      <ExistingHabitsList />
+      {showHabits && <ExistingHabitsList />}
       {tasks.length > 0 && (
         <button
           onClick={() => startRemoveAllTasks(tasks, dateRef)}
@@ -38,8 +47,11 @@ export default () => {
       <div className='item-list'>
         {tasks.length > 0 ? (
           tasks
+            // For some reason this briefly adds two of a task before deleting one
             .sort(sortTasks)
-            .map((task) => <Item key={task.id} task={task} />)
+            .map((task) => (
+              <Item showHabits={showHabits} key={task.id} task={task} />
+            ))
         ) : (
           <div>
             <span>No tasks</span>

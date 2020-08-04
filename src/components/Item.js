@@ -8,6 +8,7 @@ export default (props) => {
     startCompleteHabit,
     startUndoCompleteHabit,
     dateRef,
+    calculateCurrentStreak,
     isCompleteToday,
   } = useContext(GlobalContext);
 
@@ -43,6 +44,17 @@ export default (props) => {
         )}
         <h1 className='task-name'>{props.task.name}</h1>
       </div>
+      {!props.showHabits &&
+        props.task.habit &&
+        !(
+          calculateCurrentStreak(props.task.completed, props.task.createdAt) ===
+          0
+        ) && (
+          <p className='habit-streak'>
+            {calculateCurrentStreak(props.task.completed, props.task.createdAt)}
+            🔥
+          </p>
+        )}
       <button
         onClick={() =>
           startRemoveTask(

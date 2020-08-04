@@ -24,3 +24,9 @@
   color: #565656;
   font-size: 1.5rem;
 }
+
+.button--show-habits {
+  &:hover {
+    background: #262626;
+  }
+}
