@@ -24,35 +24,41 @@ export default (props) => {
 
   return (
     <div className='habit-tile'>
-      <h3 className='habit-title'>{props.habit.name}</h3>
-      <p className='habit-info'>
-        {props.habit.completed !== undefined ? props.habit.completed.length : 0}{' '}
-        total completions
-      </p>
-      {calculateLongestStreak(props.habit.completed, props.habit.createdAt) !==
-        0 && (
-        <div>
-          <p className='habit-info'>
-            Current:{' '}
-            {calculateCurrentStreak(
-              props.habit.completed,
-              props.habit.createdAt
-            )}
-            🔥
-          </p>
-          <p className='habit-info'>
-            Longest:{' '}
-            {calculateLongestStreak(
-              props.habit.completed,
-              props.habit.createdAt
-            )}
-            🔥
-          </p>
-        </div>
-      )}
-      <p className='habit-info'>
-        Habit started on {moment(props.habit.createdAt).format('D MMM YYYY')}
-      </p>
+      <div>
+        <h3 className='habit-title'>{props.habit.name}</h3>
+        <p className='habit-info'>
+          {props.habit.completed !== undefined
+            ? props.habit.completed.length
+            : 0}{' '}
+          total completions
+        </p>
+        {calculateLongestStreak(
+          props.habit.completed,
+          props.habit.createdAt
+        ) !== 0 && (
+          <div>
+            <p className='habit-info'>
+              Current:{' '}
+              {calculateCurrentStreak(
+                props.habit.completed,
+                props.habit.createdAt
+              )}
+              🔥
+            </p>
+            <p className='habit-info'>
+              Longest:{' '}
+              {calculateLongestStreak(
+                props.habit.completed,
+                props.habit.createdAt
+              )}
+              🔥
+            </p>
+          </div>
+        )}
+        <p className='habit-info'>
+          Habit started on {moment(props.habit.createdAt).format('D MMM YYYY')}
+        </p>
+      </div>
       <div className='habit-buttons'>
         <DeleteIcon handleShowDeleteModal={handleShowDeleteModal} />
         <EditIcon handleShowEditModal={handleShowEditModal} />

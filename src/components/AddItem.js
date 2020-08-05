@@ -3,7 +3,7 @@ import ReactAutocomplete from 'react-autocomplete';
 import { GlobalContext } from '../context/GlobalState';
 import HabitAddedMessage from './HabitAddedMessage';
 
-export default () => {
+export default (props) => {
   const {
     startAddItemToToDo,
     startAddHabitAndTask,
@@ -15,7 +15,7 @@ export default () => {
 
   const [name, setName] = useState('');
   const [nameForMessage, setNameForMessage] = useState('');
-  const [habit, setHabit] = useState(true);
+  const [habit, setHabit] = useState(!props.showHabitSwitch);
   const [taskCompleted] = useState(false);
 
   const placeHolder = habit ? 'Add a new habit' : 'Add a new task';
@@ -23,37 +23,39 @@ export default () => {
   const addNewTask = (e) => {
     e.preventDefault();
 
-    if (habit) {
-      let exists = false;
-      let id;
-      // Check if the typed habit already exists
-      habits.forEach((habit) => {
-        if (name === habit.name) {
-          exists = true;
-          id = habit.id;
+    if (name.length > 0) {
+      if (habit) {
+        let exists = false;
+        let id;
+        // Check if the typed habit already exists
+        habits.forEach((habit) => {
+          if (name === habit.name) {
+            exists = true;
+            id = habit.id;
+          }
+        });
+        // If habit already exists add it to today's todo list and if not create a new one and add it
+        if (exists) {
+          addHabitToTodoList(id);
+        } else {
+          startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
+          setNameForMessage(name);
         }
-      });
-      // If habit already exists add it to today's todo list and if not create a new one and add it
-      if (exists) {
-        addHabitToTodoList(id);
-      } else {
-        startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
-        setNameForMessage(name);
-      }
 
+        setName('');
+        const timer = setTimeout(() => {
+          setNameForMessage('');
+        }, 2000);
+        return () => clearTimeout(timer);
+      } else {
+        startAddItemToToDo(
+          { name, habit, createdAt: date, completed: taskCompleted },
+          dateRef
+        );
+      }
+      setHabit(false);
       setName('');
-      const timer = setTimeout(() => {
-        setNameForMessage('');
-      }, 2000);
-      return () => clearTimeout(timer);
-    } else {
-      startAddItemToToDo(
-        { name, habit, createdAt: date, completed: taskCompleted },
-        dateRef
-      );
     }
-    setHabit(true);
-    setName('');
   };
 
   return (
@@ -93,33 +95,34 @@ export default () => {
           <button className='button button--add'>Add Item</button>
         </div>
 
-        {habit ? (
-          <div className='habit-switch'>
-            <button className='button button--selected' type='button'>
-              Daily Habit
-            </button>
-            <button
-              className='button button--switch'
-              type='button'
-              onClick={() => setHabit(!habit)}
-            >
-              One-off Task
-            </button>
-          </div>
-        ) : (
-          <div className='habit-switch'>
-            <button
-              className='button button--switch'
-              type='button'
-              onClick={() => setHabit(!habit)}
-            >
-              Daily Habit
-            </button>
-            <button className='button button--selected' type='button'>
-              One-off Task
-            </button>
-          </div>
-        )}
+        {props.showHabitSwitch &&
+          (habit ? (
+            <div className='habit-switch'>
+              <button className='button button--selected' type='button'>
+                Daily Habit
+              </button>
+              <button
+                className='button button--switch'
+                type='button'
+                onClick={() => setHabit(!habit)}
+              >
+                One-off Task
+              </button>
+            </div>
+          ) : (
+            <div className='habit-switch'>
+              <button
+                className='button button--switch'
+                type='button'
+                onClick={() => setHabit(!habit)}
+              >
+                Daily Habit
+              </button>
+              <button className='button button--selected' type='button'>
+                One-off Task
+              </button>
+            </div>
+          ))}
       </form>
     </div>
   );

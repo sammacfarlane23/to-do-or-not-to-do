@@ -6,7 +6,7 @@ export default () => {
   return (
     <div className='dashboard'>
       <TaskList />
-      <AddItem />
+      <AddItem showHabitSwitch={true} />
     </div>
   );
 };

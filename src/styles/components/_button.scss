@@ -4,14 +4,15 @@
   border-radius: 5px;
   color: #939393;
   display: inline-block;
-  font-size: 1rem;
+  font-size: 1.6rem;
   font-weight: 300;
   line-height: 1;
   padding: 1.2rem;
-  width: 7rem;
+  width: auto;
   text-decoration: none;
   &:hover {
-    background: lighten($color: #9de13c, $amount: 6%);
+    background: lighten($color: #fecb2e, $amount: 6%);
+    color: #eeeeee;
   }
 }
 
@@ -49,15 +50,25 @@
 }
 
 .button--selected {
-  background: #9de13c;
+  background: #fecb2e;
   color: #262626;
   font-weight: 700;
+  width: 7rem;
+  font-size: 1rem;
 }
 
 .button--switch {
   &:hover {
     background: none;
     color: #eeeeee;
-    font-weight: 700;
+  }
+  width: 7rem;
+  font-size: 1rem;
+}
+
+.button--sign-out {
+  &:hover {
+    background: #565656;
+    color: #eeeeee;
   }
 }
