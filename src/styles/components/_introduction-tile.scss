@@ -1,5 +1,5 @@
 .introduction-tile {
-  padding: 2rem 3rem;
+  padding: 1rem 2rem;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -16,7 +16,9 @@
 }
 
 .introduction-tile__title {
+  margin-bottom: 1.6rem;
   font-size: 2.8rem;
+  text-align: center;
 }
 
 .introduction-tile__title--white {
@@ -24,8 +26,10 @@
 }
 
 .introduction-tile__subtitle {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 300;
+  margin: 0;
+  margin-bottom: 1.6rem;
 }
 
 .demo-content {
@@ -34,25 +38,44 @@
   justify-content: center;
   align-items: center;
   background: #565656;
-  padding: 3.5rem;
+  padding: 2rem;
+  width: 90%;
   border-radius: 2%;
   @media (min-width: 45rem) {
     // Desktop breakpoint
     flex-direction: row;
   }
+  margin-bottom: 1.6rem;
 }
 
 .demo-content__text {
-  max-width: 20rem;
-  margin: 0 2rem;
+  margin: 0;
+  margin-bottom: 2rem;
   color: #eeeeee;
 }
 
 .demo-content__image {
+  background: url('/images/notes.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .demo-content__image-border {
   background: #eeeeee;
   padding: 0.5rem;
   border-radius: 2%;
+}
+
+.introduction-tile__bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.introduction-tile__link {
+  margin-left: 1rem;
+  color: #eeeeee;
 }

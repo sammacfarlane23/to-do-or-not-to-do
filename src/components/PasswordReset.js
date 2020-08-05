@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from '@reach/router';
 import { auth } from '../firebase/firebase';
+import Footer from './Footer';
 
 const PasswordReset = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +32,7 @@ const PasswordReset = () => {
   };
 
   return (
-    <div className='login'>
+    <div className='login' id='sign-in'>
       <h1>Reset your Password</h1>
       <div className='login__container'>
         <form>
@@ -66,6 +67,7 @@ const PasswordReset = () => {
           </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 };

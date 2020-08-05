@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from '@reach/router';
 import { auth, signInWithGoogle } from '../firebase/firebase';
+import Footer from './Footer';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -30,7 +31,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className='login'>
+    <div className='login' id='sign-in'>
       <h1>Sign Up</h1>
       <div className='login__container'>
         {error !== null && <div className='login__error'>{error}</div>}
@@ -84,6 +85,7 @@ const SignUp = () => {
           </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 };

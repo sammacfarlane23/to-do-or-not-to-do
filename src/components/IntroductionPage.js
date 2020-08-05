@@ -1,4 +1,5 @@
 import React from 'react';
+import ArrowIcon from './ArrowIcon';
 
 export default () => {
   return (
@@ -11,26 +12,29 @@ export default () => {
           To-do or Not To-do
         </span>
       </h1>
-
       <h2 className='introduction-tile__subtitle'>
-        A simple app to track your daily habits aswell as keep a to-do list
+        A simple app to track your daily habits aswell as keep a to-do list.
+        Inspired by iOS notes.
       </h2>
       <div className='demo-content'>
         <p className='demo-content__text'>
-          Inspired by iOS notes. I've used iOS notes with checkboxes as a to-do
-          list for some time now and thoughti I would create an app that also
-          incorporates habit tracking.
+          I've used iOS notes as a to-do list (like in the image) for as long as
+          I can remember so I've decided to create an app that does this and
+          also incorporates habit tracking.
         </p>
         <div className='demo-content__image-border'>
           <img
+            src='/images/notes.png'
             className='demo-content__image'
-            src='https://s.aolcdn.com/hss/storage/midas/97ca062c75533751eb660de3c4aa9ee9/206475323/Notes%2Bin%2Bdark%2Bmode-ed.jpg'
-            width='200'
+            width='140'
             height='auto'
           />
         </div>
       </div>
-      <a href='#sign-in'>Move down</a>
+      <a href='#sign-in' className='introduction-tile__bottom'>
+        <ArrowIcon />
+        <p className='introduction-tile__link'>I want to have a go</p>
+      </a>
     </div>
   );
 };
