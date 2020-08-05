@@ -31,33 +31,40 @@ const PasswordReset = () => {
   };
 
   return (
-    <div className=''>
-      <h1 className=''>Reset your Password</h1>
-      <div className=''>
-        <form action=''>
+    <div className='login'>
+      <h1>Reset your Password</h1>
+      <div className='login__container'>
+        <form>
           {emailHasBeenSent && (
-            <div className=''>An email has been sent to you!</div>
+            <div className='login__error'>An email has been sent to you!</div>
           )}
-          {error !== null && <div className=''>{error}</div>}
-          <label htmlFor='userEmail' className=''>
-            Email:
-          </label>
-          <input
-            type='email'
-            name='userEmail'
-            id='userEmail'
-            value={email}
-            placeholder='Input your email'
-            onChange={onChangeHandler}
-            className=''
-          />
-          <button onClick={(e) => sendResetEmail(e)} className=''>
+          {error !== null && <div className='login__error'>{error}</div>}
+          <div className='login__inputs'>
+            <label htmlFor='userEmail' className='login__label'>
+              Email:
+            </label>
+            <input
+              type='email'
+              name='userEmail'
+              id='userEmail'
+              value={email}
+              placeholder='Input your email'
+              onChange={onChangeHandler}
+              className='login__input-text'
+            />
+          </div>
+          <button
+            onClick={(e) => sendResetEmail(e)}
+            className='button button--sign-in'
+          >
             Send me a reset link
           </button>
         </form>
-        <Link to='/' className=''>
-          &larr; back to sign in page
-        </Link>
+        <p className='login__text'>
+          <Link to='/' className='login__link'>
+            &larr; back to sign in page
+          </Link>
+        </p>
       </div>
     </div>
   );
