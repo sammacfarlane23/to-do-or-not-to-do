@@ -8,6 +8,7 @@ import Header from './Header';
 import PasswordReset from './PasswordReset';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import IntroductionPage from './IntroductionPage';
 
 import { GlobalProvider } from '../context/GlobalState';
 
@@ -23,10 +24,13 @@ export default () => {
       </Switch>
     </GlobalProvider>
   ) : (
-    <Router>
-      <SignUp exact path='signUp' />
-      <SignIn path='/' />
-      <PasswordReset path='passwordReset' />
-    </Router>
+    <div>
+      <IntroductionPage />
+      <Router>
+        <SignUp exact path='signUp' />
+        <SignIn path='/' />
+        <PasswordReset path='passwordReset' />
+      </Router>
+    </div>
   );
 };

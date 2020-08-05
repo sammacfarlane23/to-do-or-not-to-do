@@ -1,4 +1,5 @@
 .login {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -36,6 +37,7 @@
 .login__input-text {
   color: #939393;
   width: 100%;
+  border-radius: 0;
   text-align: left;
   @media (min-width: 45rem) {
     // Desktop breakpoint

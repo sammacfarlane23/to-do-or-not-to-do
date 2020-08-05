@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from '@reach/router';
 import { auth, signInWithGoogle } from '../firebase/firebase';
+import Footer from './Footer';
 
 const SignIn = () => {
   const history = useHistory();
@@ -28,7 +29,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className='login'>
+    <div className='login' id='sign-in'>
       <h1>Sign In</h1>
       <div className='login__container'>
         {error !== null && <div className='login__error'>{error}</div>}
@@ -87,6 +88,7 @@ const SignIn = () => {
           </Link>
         </p>
       </div>
+      <Footer />
     </div>
   );
 };
