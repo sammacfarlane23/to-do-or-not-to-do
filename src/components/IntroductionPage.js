@@ -1,5 +1,5 @@
 import React from 'react';
-import ArrowIcon from './ArrowIcon';
+import ArrowDownIcon from './ArrowDownIcon';
 
 export default () => {
   return (
@@ -32,7 +32,7 @@ export default () => {
         </div>
       </div>
       <a href='#sign-in' className='introduction-tile__bottom'>
-        <ArrowIcon />
+        <ArrowDownIcon />
         <p className='introduction-tile__link'>I want to have a go</p>
       </a>
     </div>

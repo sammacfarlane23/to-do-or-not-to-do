@@ -16,22 +16,26 @@
   }
 }
 
-.button--down {
+.button--arrow {
   color: #fecb2e;
   height: 3rem;
 }
 
 .button--add {
-  background: #565656;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: #fecb2e;
   &:hover {
-    background: #565656;
+    background: lighten($color: #fecb2e, $amount: 6%);
     color: #eeeeee;
   }
-  font-size: 1.4rem;
   border: none;
-  border-radius: 5%;
-  color: #939393;
-  padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  color: #262626;
   margin: 0 1rem;
 }
 
@@ -60,6 +64,9 @@
   font-weight: 700;
   width: 7rem;
   font-size: 1rem;
+  &:hover {
+    color: #262626;
+  }
 }
 
 .button--switch {
@@ -72,8 +79,13 @@
 }
 
 .button--sign-out {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  color: #fecb2e;
   &:hover {
-    background: #565656;
+    background: #262626;
     color: #eeeeee;
   }
 }

@@ -1,0 +1,40 @@
+.date {
+  margin: 0rem;
+}
+
+.date-picker {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  @media (min-width: 45rem) {
+    margin-bottom: 2rem;
+  }
+}
+
+.date-picker__button {
+  width: 8rem;
+  border: none;
+  padding: 0;
+  color: #eeeeee;
+  font-size: 2.2rem;
+  @media (min-width: 45rem) {
+    font-size: 4rem;
+    width: 14rem;
+  }
+}
+
+.date-picker__text {
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin: 0;
+  padding: 0;
+  transform: translate(1px, -1.6px);
+  @media (min-width: 45rem) {
+    font-size: 4rem;
+    transform: translate(1px, -0.4px);
+  }
+}

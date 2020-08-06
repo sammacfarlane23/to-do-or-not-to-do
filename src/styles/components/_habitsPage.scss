@@ -3,8 +3,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (min-width: 45rem) {
+    // Desktop breakpoint
+    justify-content: space-between;
+    padding: 4rem;
+    height: 100vh;
+    margin: 0 8rem;
+  }
 }
 
-.habits-page-title {
-  margin: 1rem 0;
+.habits-page__title {
+  margin: 0;
+  font-size: 4rem;
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import { Router } from '@reach/router';
 import { UserContext } from '../context/UserProvider';
 import Dashboard from './Dashboard';
@@ -14,10 +14,11 @@ import { GlobalProvider } from '../context/GlobalState';
 
 export default () => {
   const user = useContext(UserContext);
+  const history = useHistory();
 
   return user ? (
     <GlobalProvider>
-      <Header />
+      <Header history={history} location={history.location.pathname} />
       <Switch>
         <Route exact path='/' component={Dashboard} />
         <Route path='/habits' component={HabitsPage} />

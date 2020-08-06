@@ -1,4 +1,4 @@
-.add-item-form {
+.add-item__form {
   background-color: none;
   display: flex;
   flex-direction: column;
@@ -29,7 +29,7 @@
   margin: 0 2rem;
 }
 
-.add-item-name {
+.add-item__name {
   font-weight: 700;
   background: none;
   border: none;
@@ -50,6 +50,9 @@
 
 .habit-message {
   position: fixed;
+  left: 0;
+  bottom: 0;
+  text-align: center;
   color: #eeeeee;
   opacity: 50%;
 }

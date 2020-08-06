@@ -1,10 +1,13 @@
 .task-list {
-  width: 45rem;
+  max-width: 60rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background: none;
+  @media (min-width: 45rem) {
+    width: 90rem;
+  }
 }
 
 .item-list {
@@ -17,6 +20,7 @@
   background: #262626;
   border: none;
   width: 100%;
+  z-index: 100;
 }
 
 .date-title {
@@ -24,23 +28,21 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 0;
   text-align: center;
-}
-
-.date {
-  margin: 0rem;
-}
-
-.single-date-picker {
-  margin: 2rem;
+  @media (min-width: 45rem) {
+    // Desktop breakpoint
+    justify-content: center;
+  }
 }
 
 .SingleDatePickerInput {
   background: none;
+  border: none;
 }
 
-.SingleDatePickerInput__withBorder {
+.SingleDatePickerInput.SingleDatePickerInput_1 {
   border: none;
 }
 
@@ -49,8 +51,8 @@ input#date.DateInput_input.DateInput_input_1 {
   color: #939393;
   font-size: 1.5rem;
   padding: 0;
-  margin: 0;
-  border-radius: 10%;
+  border-radius: 0%;
+  border: 1px solid #262626;
 }
 
 .show-hide-habits {
@@ -66,4 +68,11 @@ input#date.DateInput_input.DateInput_input_1 {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+
+.empty-message {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }

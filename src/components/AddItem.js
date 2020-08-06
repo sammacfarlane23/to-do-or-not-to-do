@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import ReactAutocomplete from 'react-autocomplete';
 import { GlobalContext } from '../context/GlobalState';
 import HabitAddedMessage from './HabitAddedMessage';
+import PlusIcon from './PlusIcon';
 
 export default (props) => {
   const {
@@ -59,17 +60,17 @@ export default (props) => {
   };
 
   return (
-    <div className='add-item'>
+    <div>
       <div className='habit-message'>
         {!(nameForMessage.length === 0) && (
           <HabitAddedMessage name={nameForMessage} />
         )}
       </div>
-      <form onSubmit={addNewTask} className='add-item-form'>
+      <form onSubmit={addNewTask} className='add-item__form'>
         <div className='text-input-button'>
           <ReactAutocomplete
             inputProps={{ placeholder: placeHolder }}
-            className='add-item-name'
+            className='add-item__name'
             items={habits}
             shouldItemRender={(item, name) =>
               item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 &&
@@ -92,7 +93,9 @@ export default (props) => {
             onChange={(e) => setName(e.target.value)}
             onSelect={(name) => setName(name)}
           />
-          <button className='button button--add'>Add Item</button>
+          <button className='button button--add'>
+            <PlusIcon />
+          </button>
         </div>
 
         {props.showHabitSwitch &&

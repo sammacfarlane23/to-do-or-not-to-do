@@ -31,15 +31,15 @@ export default () => {
   return renderList ? (
     <div className='task-list'>
       <div className='date-title'>
-        <DateEdit className='date' />
-        <div className='show-hide-habits'>
+        <DateEdit />
+        {/*<div className='show-hide-habits'>
           <p>{showHabits ? 'Hide' : 'Show'} habits </p>
           {showHabits ? (
             <MinusIcon handleButtonClick={handleButtonClick} />
           ) : (
             <ShowHabitsPlusIcon handleButtonClick={handleButtonClick} />
           )}
-        </div>
+          </div>*/}
       </div>
       {showHabits && <ExistingHabitsList />}
       {/*<div className='remove-all'>
@@ -52,20 +52,18 @@ export default () => {
           </button>
         )}
         </div>*/}
-      <div className='item-list'>
-        {tasks.length > 0 ? (
-          tasks
-            // For some reason this briefly adds two of a task before deleting one
-            .sort(sortTasks)
-            .map((task) => (
-              <Item showHabits={showHabits} key={task.id} task={task} />
-            ))
-        ) : (
-          <div>
-            <span>No tasks</span>
-          </div>
-        )}
-      </div>
+
+      {tasks.length > 0 ? (
+        <div className='item-list'>
+          {tasks.sort(sortTasks).map((task) => (
+            <Item showHabits={showHabits} key={task.id} task={task} />
+          ))}
+        </div>
+      ) : (
+        <div className='empty-message'>
+          <span>No tasks</span>
+        </div>
+      )}
     </div>
   ) : (
     <LoadingPage />

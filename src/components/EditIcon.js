@@ -5,7 +5,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 export default (props) => (
   <div>
     <button className='button' onClick={props.handleShowEditModal}>
-      <FontAwesomeIcon icon={faEdit} className='white-button' size='2x' />
+      <FontAwesomeIcon icon={faEdit} className='white-button' size='1x' />
     </button>
   </div>
 );
