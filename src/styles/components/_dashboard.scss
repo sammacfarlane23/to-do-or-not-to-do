@@ -1,14 +1,15 @@
 .dashboard {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  width: 100%;
   max-width: 100vw;
   @media (min-width: 45rem) {
     // Desktop breakpoint
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
     padding: 4rem;
     height: 100vh;
-    margin: 0 8rem;
   }
 }

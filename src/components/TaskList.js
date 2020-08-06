@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Item from './Item';
 import LoadingPage from './LoadingPage';
-import DateEdit from '../components/DateEdit';
-import ExistingHabitsList from './ExistingHabitsList';
-import ShowHabitsPlusIcon from './ShowHabitsPlusIcon';
-import MinusIcon from './MinusIcon';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
@@ -23,10 +19,6 @@ export default () => {
     startSetTasks(dateRef);
     setRenderList(true);
   }, [dateRef, tasks]);
-
-  const handleButtonClick = () => {
-    setShowHabits(!showHabits);
-  };
 
   return renderList ? (
     <div className='task-list'>
