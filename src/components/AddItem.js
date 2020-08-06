@@ -93,7 +93,7 @@ export default (props) => {
             onChange={(e) => setName(e.target.value)}
             onSelect={(name) => setName(name)}
           />
-          <button className='button button--add'>
+          <button className='button--add'>
             <PlusIcon />
           </button>
         </div>
