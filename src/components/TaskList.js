@@ -30,29 +30,6 @@ export default () => {
 
   return renderList ? (
     <div className='task-list'>
-      <div className='date-title'>
-        <DateEdit />
-        {/*<div className='show-hide-habits'>
-          <p>{showHabits ? 'Hide' : 'Show'} habits </p>
-          {showHabits ? (
-            <MinusIcon handleButtonClick={handleButtonClick} />
-          ) : (
-            <ShowHabitsPlusIcon handleButtonClick={handleButtonClick} />
-          )}
-          </div>*/}
-      </div>
-      {showHabits && <ExistingHabitsList />}
-      {/*<div className='remove-all'>
-        {tasks.length > 0 && (
-          <button
-            onClick={() => startRemoveAllTasks(tasks, dateRef)}
-            className='button'
-          >
-            Remove All
-          </button>
-        )}
-        </div>*/}
-
       {tasks.length > 0 ? (
         <div className='item-list'>
           {tasks.sort(sortTasks).map((task) => (

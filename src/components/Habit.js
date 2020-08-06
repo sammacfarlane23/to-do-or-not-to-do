@@ -5,11 +5,14 @@ import ItemModal from './ItemModal';
 import DeleteModal from './DeleteModal';
 import DeleteIcon from './DeleteIcon';
 import EditIcon from './EditIcon';
+import PlusIcon from './PlusIcon';
 
 export default (props) => {
-  const { calculateCurrentStreak, calculateLongestStreak } = useContext(
-    GlobalContext
-  );
+  const {
+    addHabitToTodoList,
+    calculateCurrentStreak,
+    calculateLongestStreak,
+  } = useContext(GlobalContext);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -25,7 +28,17 @@ export default (props) => {
   return (
     <div className='habit-tile'>
       <div>
-        <h3 className='habit-title'>{props.habit.name}</h3>
+        <div className='habit-tile__header'>
+          <h3 className='habit-title'>{props.habit.name}</h3>
+          <button
+            className='button--add'
+            onClick={() => {
+              props.addHabit(props.habit.name, props.habit.id);
+            }}
+          >
+            <PlusIcon />
+          </button>
+        </div>
         <p className='habit-info'>
           {props.habit.completed !== undefined
             ? props.habit.completed.length

@@ -5,3 +5,14 @@
   flex-wrap: wrap;
   margin-bottom: 1rem;
 }
+
+.habit-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.habit-list__message {
+  color: #eeeeee;
+}
