@@ -4,19 +4,25 @@ import { GlobalContext } from '../context/GlobalState';
 import LoadingPage from './LoadingPage';
 
 export default () => {
-  const {
-    addHabitToTodoList,
-    startSetHabits,
-    isCompleteToday,
-    habits,
-    dateRef,
-  } = useContext(GlobalContext);
+  const { addHabitToTodoList, startSetHabits, tasks, habits } = useContext(
+    GlobalContext
+  );
   const [renderList, setRenderList] = useState(false);
   const [addedMessage, setAddedMessage] = useState('');
 
   const addHabitToTodo = (name, id) => {
     addHabitToTodoList(id);
-    setAddedMessage(`${name} was added to today's to-do list`);
+    let existsInTodoList = false;
+    tasks.forEach((task) => {
+      if (task.name === name) {
+        existsInTodoList = true;
+      }
+    });
+    if (!existsInTodoList) {
+      setAddedMessage(`${name} was added to today's to-do list`);
+    } else {
+      setAddedMessage(`${name} is already on today's to-do list`);
+    }
     setTimeout(() => {
       setAddedMessage('');
     }, 2000);

@@ -28,17 +28,7 @@ export default (props) => {
   return (
     <div className='habit-tile'>
       <div>
-        <div className='habit-tile__header'>
-          <h3 className='habit-title'>{props.habit.name}</h3>
-          <button
-            className='button--add'
-            onClick={() => {
-              props.addHabit(props.habit.name, props.habit.id);
-            }}
-          >
-            <PlusIcon />
-          </button>
-        </div>
+        <h3 className='habit-tile__title'>{props.habit.name}</h3>
         <p className='habit-info'>
           {props.habit.completed !== undefined
             ? props.habit.completed.length
@@ -75,6 +65,14 @@ export default (props) => {
       <div className='habit-buttons'>
         <DeleteIcon handleShowDeleteModal={handleShowDeleteModal} />
         <EditIcon handleShowEditModal={handleShowEditModal} />
+        <button
+          className='button--add'
+          onClick={() => {
+            props.addHabit(props.habit.name, props.habit.id);
+          }}
+        >
+          <PlusIcon />
+        </button>
       </div>
       <ItemModal
         showModal={showEditModal}

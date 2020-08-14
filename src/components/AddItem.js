@@ -7,6 +7,7 @@ import PlusIcon from './PlusIcon';
 export default (props) => {
   const {
     startAddItemToToDo,
+    startAddHabit,
     startAddHabitAndTask,
     addHabitToTodoList,
     dateRef,
@@ -25,37 +26,42 @@ export default (props) => {
     e.preventDefault();
 
     if (name.length > 0) {
-      if (habit) {
-        let exists = false;
-        let id;
-        // Check if the typed habit already exists
-        habits.forEach((habit) => {
-          if (name === habit.name) {
-            exists = true;
-            id = habit.id;
-          }
-        });
-        // If habit already exists add it to today's todo list and if not create a new one and add it
-        if (exists) {
-          addHabitToTodoList(id);
-        } else {
-          startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
-          setNameForMessage(name);
-        }
-
-        setName('');
-        const timer = setTimeout(() => {
-          setNameForMessage('');
-        }, 2000);
-        return () => clearTimeout(timer);
+      // If an item is added from the habit page, just add the habit, not to-do aswell
+      if (!props.showHabitSwitch) {
+        startAddHabit({ name, habit, createdAt: date });
       } else {
-        startAddItemToToDo(
-          { name, habit, createdAt: date, completed: taskCompleted },
-          dateRef
-        );
+        if (habit) {
+          let exists = false;
+          let id;
+          // Check if the typed habit already exists
+          habits.forEach((habit) => {
+            if (name === habit.name) {
+              exists = true;
+              id = habit.id;
+            }
+          });
+          // If habit already exists add it to today's todo list and if not create a new one and add it
+          if (exists) {
+            addHabitToTodoList(id);
+          } else {
+            startAddHabitAndTask({ name, habit, createdAt: date }, dateRef);
+            setNameForMessage(name);
+          }
+
+          setName('');
+          const timer = setTimeout(() => {
+            setNameForMessage('');
+          }, 2000);
+          return () => clearTimeout(timer);
+        } else {
+          startAddItemToToDo(
+            { name, habit, createdAt: date, completed: taskCompleted },
+            dateRef
+          );
+        }
+        setHabit(false);
+        setName('');
       }
-      setHabit(false);
-      setName('');
     }
   };
 
