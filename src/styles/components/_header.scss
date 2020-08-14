@@ -27,8 +27,10 @@
   margin: 0;
   color: #fecb2e;
   text-decoration: none;
-  &:hover {
-    color: #eeeeee;
+  @media (min-width: 45rem) {
+    &:hover {
+      color: #eeeeee;
+    }
   }
 }
 

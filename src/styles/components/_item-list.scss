@@ -4,7 +4,6 @@
   justify-content: stretch;
   align-items: center;
   margin: 0;
-  max-width: 45rem;
   background: #262626;
   border: none;
   width: 35rem;
@@ -55,4 +54,8 @@ input#date.DateInput_input.DateInput_input_1 {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  @media (min-width: 45rem) {
+    // Desktop breakpoint
+    width: 45rem;
+  }
 }

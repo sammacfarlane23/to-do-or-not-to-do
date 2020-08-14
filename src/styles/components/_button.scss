@@ -10,14 +10,15 @@
   padding: 1.2rem;
   width: auto;
   text-decoration: none;
-  &:hover {
-    background: lighten($color: #fecb2e, $amount: 6%);
-    color: #eeeeee;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: lighten($color: #fecb2e, $amount: 6%);
+      color: #eeeeee;
+    }
   }
 }
 
 .button--arrow {
-  color: #fecb2e;
   height: 3rem;
 }
 
@@ -27,9 +28,11 @@
   justify-content: center;
   align-items: center;
   background: #fecb2e;
-  &:hover {
-    background: lighten($color: #fecb2e, $amount: 6%);
-    color: #eeeeee;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: lighten($color: #fecb2e, $amount: 6%);
+      color: #eeeeee;
+    }
   }
   border: none;
   width: 3rem;
@@ -50,8 +53,10 @@
 }
 
 .button--show-habits {
-  &:hover {
-    background: #262626;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: #262626;
+    }
   }
   padding: 0;
   width: auto;
@@ -64,15 +69,19 @@
   font-weight: 700;
   width: 7rem;
   font-size: 1rem;
-  &:hover {
-    color: #262626;
+  @media (min-width: 45rem) {
+    &:hover {
+      color: #262626;
+    }
   }
 }
 
 .button--switch {
-  &:hover {
-    background: none;
-    color: #eeeeee;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: none;
+      color: #eeeeee;
+    }
   }
   width: 7rem;
   font-size: 1rem;
@@ -84,9 +93,11 @@
   justify-content: center;
   align-items: center;
   color: #fecb2e;
-  &:hover {
-    background: #262626;
-    color: #eeeeee;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: #262626;
+      color: #eeeeee;
+    }
   }
 }
 
