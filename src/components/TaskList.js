@@ -20,21 +20,15 @@ export default () => {
     setRenderList(true);
   }, [dateRef, tasks]);
 
-  return renderList ? (
-    <div className='task-list'>
-      {tasks.length > 0 ? (
-        <div className='item-list'>
-          {tasks.sort(sortTasks).map((task) => (
-            <Item showHabits={showHabits} key={task.id} task={task} />
-          ))}
-        </div>
-      ) : (
-        <div className='empty-message'>
-          <span>No tasks</span>
-        </div>
-      )}
+  return tasks.length > 0 ? (
+    <div className='item-list'>
+      {tasks.sort(sortTasks).map((task) => (
+        <Item showHabits={showHabits} key={task.id} task={task} />
+      ))}
     </div>
   ) : (
-    <LoadingPage />
+    <div className='empty-message'>
+      <span>No tasks</span>
+    </div>
   );
 };

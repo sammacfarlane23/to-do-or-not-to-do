@@ -7,9 +7,7 @@ export default () => {
   return (
     <div className='dashboard'>
       <div>
-        <div className='date-title'>
-          <DateEdit />
-        </div>
+        <DateEdit />
         <TaskList />
       </div>
       <AddItem showHabitSwitch={true} />
