@@ -29,6 +29,7 @@ export default (props) => {
       // If an item is added from the habit page, just add the habit, not to-do aswell
       if (!props.showHabitSwitch) {
         startAddHabit({ name, habit, createdAt: date });
+        setName('');
       } else {
         if (habit) {
           let exists = false;
@@ -74,30 +75,11 @@ export default (props) => {
       </div>
       <form onSubmit={addNewTask} className='add-item__form'>
         <div className='text-input-button'>
-          <ReactAutocomplete
-            inputProps={{ placeholder: placeHolder }}
-            className='add-item__name'
-            items={habits}
-            shouldItemRender={(item, name) =>
-              item.name.toLowerCase().indexOf(name.toLowerCase()) > -1 &&
-              name.length > 0 &&
-              habit
-            }
-            getItemValue={(item) => item.name}
-            renderItem={(item, highlighted) => (
-              <div
-                key={item.id}
-                style={{
-                  backgroundColor: highlighted ? '#eee' : 'transparent',
-                }}
-                className='text-dropdown'
-              >
-                {item.name}
-              </div>
-            )}
+          <input
+            type='text'
+            placeholder={placeHolder}
             value={name}
             onChange={(e) => setName(e.target.value)}
-            onSelect={(name) => setName(name)}
           />
           <button className='button--add'>
             <PlusIcon />

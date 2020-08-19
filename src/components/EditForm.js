@@ -30,7 +30,7 @@ export default ({ task, closeModal }) => {
     <form onSubmit={onSubmit} className='modal__body'>
       <input
         type='text'
-        placeholder='Task Name'
+        placeholder='Habit Name'
         value={name}
         onChange={onTaskNameChange}
         className='name-edit'
