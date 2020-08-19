@@ -4,6 +4,10 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 export default () => (
   <div>
-    <FontAwesomeIcon icon={faAngleDown} className='button--arrow' size='2x' />
+    <FontAwesomeIcon
+      icon={faAngleDown}
+      className='button--arrow button--yellow'
+      size='2x'
+    />
   </div>
 );

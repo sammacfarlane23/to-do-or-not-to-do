@@ -92,6 +92,16 @@ export const GlobalProvider = ({ children }) => {
           ...newHabit,
         });
       });
+
+    // database
+    //   .ref(`users/${user.uid}/tasks/${dateRef}`)
+    //   .push(task)
+    //   .then((ref) => {
+    //     addTask({
+    //       id: ref.key,
+    //       ...task,
+    //     });
+    //   });
   };
 
   const startAddHabitAndTask = (habitData = {}, dateRef) => {

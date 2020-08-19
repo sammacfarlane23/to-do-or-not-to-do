@@ -22,6 +22,10 @@
   height: 3rem;
 }
 
+.button--yellow {
+  color: #fecb2e;
+}
+
 .button--add {
   display: flex;
   flex-direction: row;
@@ -44,6 +48,12 @@
 
 .button--remove {
   background: none;
+  @media (min-width: 45rem) {
+    &:hover {
+      background: none;
+      color: #eeeeee;
+    }
+  }
 }
 
 .button--habit {
