@@ -4,20 +4,18 @@ import LoadingPage from './LoadingPage';
 import { GlobalContext } from '../context/GlobalState';
 
 export default () => {
-  const {
-    startSetTasks,
-    startRemoveAllTasks,
-    tasks,
-    dateRef,
-    sortTasks,
-  } = useContext(GlobalContext);
+  const { startSetTasks, tasks, dateRef, sortTasks } = useContext(
+    GlobalContext
+  );
 
-  const [renderList, setRenderList] = useState(false);
   const [showHabits, setShowHabits] = useState(false);
+
+  // This useEffect function with the tasks and dateRef dependencies means
+  // that the startAddTask function does not have to update the state
+  // as the state will be updated automatically here
 
   useEffect(() => {
     startSetTasks(dateRef);
-    setRenderList(true);
   }, [dateRef, tasks]);
 
   return tasks.length > 0 ? (

@@ -1,17 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
+import moment from 'moment';
 import Habit from './Habit';
 import { GlobalContext } from '../context/GlobalState';
 import LoadingPage from './LoadingPage';
 
 export default () => {
-  const { addHabitToTodoList, startSetHabits, tasks, habits } = useContext(
-    GlobalContext
-  );
+  const {
+    addHabitToTodoList,
+    startSetHabits,
+    tasks,
+    habits,
+    date,
+  } = useContext(GlobalContext);
   const [renderList, setRenderList] = useState(false);
   const [addedMessage, setAddedMessage] = useState('');
 
   const addHabitToTodo = (name, id) => {
     addHabitToTodoList(id);
+    const dateFormatted = moment(date).format('DD/MM');
     let existsInTodoList = false;
     tasks.forEach((task) => {
       if (task.name === name) {
@@ -19,19 +25,23 @@ export default () => {
       }
     });
     if (!existsInTodoList) {
-      setAddedMessage(`${name} was added to today's to-do list`);
+      setAddedMessage(`${name} was added to ${dateFormatted} to-do list`);
     } else {
-      setAddedMessage(`${name} is already on today's to-do list`);
+      setAddedMessage(`${name} is already on ${dateFormatted} to-do list`);
     }
     setTimeout(() => {
       setAddedMessage('');
     }, 2000);
   };
 
+  // This useEffect function with the habits dependency means
+  // that the startAddHabit function does not have to update the
+  // state as the state will be updated automatically here
+
   useEffect(() => {
     startSetHabits();
     setRenderList(true);
-  }, []);
+  }, [habits]);
 
   return renderList ? (
     <div className='habit-container'>

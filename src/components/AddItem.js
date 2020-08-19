@@ -6,12 +6,13 @@ import PlusIcon from './PlusIcon';
 
 export default (props) => {
   const {
-    startAddItemToToDo,
+    startAddTask,
     startAddHabit,
     startAddHabitAndTask,
     addHabitToTodoList,
     dateRef,
     date,
+    tasks,
     habits,
   } = useContext(GlobalContext);
 
@@ -55,10 +56,12 @@ export default (props) => {
           }, 2000);
           return () => clearTimeout(timer);
         } else {
-          startAddItemToToDo(
-            { name, habit, createdAt: date, completed: taskCompleted },
-            dateRef
-          );
+          startAddTask({
+            name,
+            createdAt: date,
+            habit,
+            completed: taskCompleted,
+          });
         }
         setHabit(false);
         setName('');

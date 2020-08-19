@@ -1,57 +1,10 @@
 import moment from 'moment';
 
+// Only need actions to set tasks and habits and change date
+// as tasks and habits state are updated live with a useEffect
+// function
 export default (state, action) => {
   switch (action.type) {
-    case 'POPULATE_TASKS':
-      return action.tasks;
-    case 'ADD_TASK':
-      return {
-        ...state,
-        tasks: [...state.tasks, action.task],
-      };
-    case 'ADD_HABIT':
-      return {
-        ...state,
-        habits: [...state.habits, action.habit],
-      };
-    case 'EDIT_TASK':
-      return {
-        ...state,
-        tasks: state.tasks.map((task) => {
-          if (task.id === action.id) {
-            return {
-              ...task,
-              ...action.updates,
-            };
-          } else {
-            return task;
-          }
-        }),
-      };
-    case 'EDIT_HABIT':
-      return {
-        ...state,
-        habits: state.habits.map((habit) => {
-          if (habit.id === action.id) {
-            return {
-              ...habit,
-              ...action.updates,
-            };
-          } else {
-            return habit;
-          }
-        }),
-      };
-    case 'REMOVE_TASK':
-      return {
-        ...state,
-        tasks: state.tasks.filter((task) => task.id !== action.id),
-      };
-    case 'REMOVE_HABIT':
-      return {
-        ...state,
-        habits: state.habits.filter((habit) => habit.id !== action.id),
-      };
     case 'SET_TASKS':
       return { ...state, tasks: action.tasks };
     case 'SET_HABITS':

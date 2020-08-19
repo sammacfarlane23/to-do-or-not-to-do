@@ -17,62 +17,41 @@ export const GlobalProvider = ({ children }) => {
   const [taskState, taskDispatch] = useReducer(TasksReducer, initialTaskState);
   const user = useContext(UserContext);
 
-  const addTask = (task) => {
-    taskDispatch({
-      type: 'ADD_TASK',
-      task,
-    });
-  };
-
-  const startAddItemToToDo = (taskData = {}, dateRef, id) => {
+  const startAddTask = (taskData = {}) => {
     const {
       name = '',
       createdAt = 0,
       habit = false,
       completed = false,
     } = taskData;
-    const task = {
+    const newTask = {
       name,
       createdAt,
       habit,
       completed,
     };
+
+    database.ref(`users/${user.uid}/tasks/${taskState.dateRef}`).push(newTask);
+  };
+
+  const startAddItemToToDo = (habitData = {}, dateRef, id) => {
+    const {
+      name = '',
+      createdAt = 0,
+      habit = false,
+      completed = false,
+    } = habitData;
     const habitObject = {
       name,
       createdAt,
       habit,
+      completed,
     };
 
-    // If it is a habit its id will have been passed in to use again here
-    if (id) {
-      database
-        .ref(`users/${user.uid}/tasks/${dateRef}`)
-        .child(`${id}`)
-        .set(habitObject)
-        .then(() => {
-          addTask({
-            id,
-            ...habitObject,
-          });
-        });
-    } else {
-      database
-        .ref(`users/${user.uid}/tasks/${dateRef}`)
-        .push(task)
-        .then((ref) => {
-          addTask({
-            id: ref.key,
-            ...task,
-          });
-        });
-    }
-  };
-
-  const addHabit = (habit) => {
-    taskDispatch({
-      type: 'ADD_HABIT',
-      habit,
-    });
+    database
+      .ref(`users/${user.uid}/tasks/${dateRef}`)
+      .child(`${id}`)
+      .set(habitObject);
   };
 
   const startAddHabit = (habitData = {}) => {
@@ -83,25 +62,7 @@ export const GlobalProvider = ({ children }) => {
       habit,
     };
 
-    database
-      .ref(`users/${user.uid}/habits`)
-      .push(newHabit)
-      .then((ref) => {
-        addHabit({
-          id: ref.key,
-          ...newHabit,
-        });
-      });
-
-    // database
-    //   .ref(`users/${user.uid}/tasks/${dateRef}`)
-    //   .push(task)
-    //   .then((ref) => {
-    //     addTask({
-    //       id: ref.key,
-    //       ...task,
-    //     });
-    //   });
+    database.ref(`users/${user.uid}/habits`).push(newHabit);
   };
 
   const startAddHabitAndTask = (habitData = {}, dateRef) => {
@@ -114,45 +75,30 @@ export const GlobalProvider = ({ children }) => {
 
     const key = database.ref(user.uid).push().key;
 
+    // Add to today's tasks
     database
       .ref(`users/${user.uid}/tasks/${dateRef}`)
       .child(`${key}`)
-      .set(newHabit)
-      .then(() => {
-        addTask({
-          id: key,
-          ...newHabit,
-        });
-      });
+      .set(newHabit);
 
-    database
-      .ref(`users/${user.uid}/habits`)
-      .child(`${key}`)
-      .set(newHabit)
-      .then(() => {
-        addHabit({
-          id: key,
-          ...newHabit,
-        });
-      });
+    // Add to habits section also
+    database.ref(`users/${user.uid}/habits`).child(`${key}`).set(newHabit);
   };
 
-  const removeTask = (id) => {
-    taskDispatch({
-      type: 'REMOVE_TASK',
-      id,
-    });
+  const addHabitToTodoList = (id) => {
+    database
+      .ref(`users/${user.uid}/habits/${id}`)
+      .once('value')
+      .then((snapshot) => {
+        const habit = snapshot.val();
+        startAddItemToToDo(habit, taskState.dateRef, id);
+      });
   };
 
   const startRemoveTask = ({ id, createdAt } = {}, dateRef) => {
     // If it's a habit undo its completion today since it is getting removed
     startUndoCompleteHabit(id, createdAt, dateRef, true);
-    database
-      .ref(`users/${user.uid}/tasks/${dateRef}/${id}`)
-      .remove()
-      .then(() => {
-        removeTask(id);
-      });
+    database.ref(`users/${user.uid}/tasks/${dateRef}/${id}`).remove();
   };
 
   const startRemoveAllTasks = (tasks, dateRef) => {
@@ -162,21 +108,9 @@ export const GlobalProvider = ({ children }) => {
     });
   };
 
-  const removeHabit = (id) => {
-    taskDispatch({
-      type: 'REMOVE_HABIT',
-      id,
-    });
-  };
-
   const startRemoveHabit = (id, createdAt) => {
     // Remove from habits section of database first
-    database
-      .ref(`users/${user.uid}/habits/${id}`)
-      .remove()
-      .then(() => {
-        removeHabit(id);
-      });
+    database.ref(`users/${user.uid}/habits/${id}`).remove();
 
     // Next remove all instances of this habit on to-do lists
     let dateIndex = moment().valueOf();
@@ -194,32 +128,14 @@ export const GlobalProvider = ({ children }) => {
           if (hasTask) {
             database.ref(`users/${user.uid}/tasks/${date}/${id}`).remove();
           }
-        })
-        // If habit is on today's todo list remove it
-        .then(() => {
-          if (taskState.dateRef === date) {
-            removeTask(id);
-          }
         });
       dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
     }
   };
 
-  const editTask = (id, updates) => {
-    taskDispatch({
-      type: 'EDIT_TASK',
-      id,
-      updates,
-    });
-  };
-
+  // Keep this about as still being used to complete tasks
   const startEditTask = (id, updates, dateRef) => {
-    database
-      .ref(`users/${user.uid}/tasks/${dateRef}/${id}`)
-      .update(updates)
-      .then(() => {
-        editTask(id, updates);
-      });
+    database.ref(`users/${user.uid}/tasks/${dateRef}/${id}`).update(updates);
   };
 
   const editHabit = (id, updates) => {
@@ -231,12 +147,7 @@ export const GlobalProvider = ({ children }) => {
   };
 
   const startEditHabit = (id, updates, createdAt) => {
-    database
-      .ref(`users/${user.uid}/habits/${id}`)
-      .update(updates)
-      .then(() => {
-        editHabit(id, updates);
-      });
+    database.ref(`users/${user.uid}/habits/${id}`).update(updates);
 
     // Check if a day has the task and if it does, edit it
     // Should probably abstract this into a function as it's used more than once
@@ -256,11 +167,6 @@ export const GlobalProvider = ({ children }) => {
               .update(updates);
           }
           return hasTask;
-        })
-        .then((hasTask) => {
-          if (hasTask) {
-            editHabit(id, updates);
-          }
         });
       dateIndex = moment(dateIndex).subtract(1, 'day').valueOf();
     }
@@ -390,16 +296,6 @@ export const GlobalProvider = ({ children }) => {
       });
   };
 
-  const addHabitToTodoList = (id) => {
-    database
-      .ref(`users/${user.uid}/habits/${id}`)
-      .once('value')
-      .then((snapshot) => {
-        const habit = snapshot.val();
-        startAddItemToToDo(habit, taskState.dateRef, id);
-      });
-  };
-
   const changeDate = (date) => {
     taskDispatch({
       type: 'CHANGE_DATE',
@@ -507,6 +403,7 @@ export const GlobalProvider = ({ children }) => {
         tasks: taskState.tasks,
         habits: taskState.habits,
         addHabitToTodoList,
+        startAddTask,
         startAddItemToToDo,
         startAddHabit,
         startAddHabitAndTask,
