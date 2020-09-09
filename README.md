@@ -2,4 +2,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## React Habit Tracking To-do List
 
-Live demo [here](https://github.com/sammacfarlane23/to-do-or-not-to-do)
+Live demo [here](http://todo-or-not-todo-list.herokuapp.com/)
